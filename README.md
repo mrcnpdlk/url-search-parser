@@ -1,2 +1,188 @@
-# rest-search-parser
-REST Query parser for searching and filtering
+# mrcnpdlk/url-search-parser
+[![Latest Stable Version](https://img.shields.io/github/release/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
+[![Latest Unstable Version](https://poser.pugx.org/mrcnpdlk/url-query-parser/v/unstable.png)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
+[![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
+[![License](https://img.shields.io/packagist/l/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)   
+[![Maintainability](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/maintainability)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/test_coverage)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/test_coverage)
+
+# Contents
+
+This boundle has been created for parsing advanced queries to easy-to-use objects. 
+
+Based on https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#advanced-queries
+
+[TOC]
+
+
+## Instalation
+
+Install the latest version with [composer](https://packagist.org/packages/mrcnpdlk/teryt-api)
+```bash
+composer require mrcnpdlk/url-search-parser
+```
+## Supported parameters
+
+```php
+$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
+```
+
+### Sort
+
+Generic parameter `sort` can be used to describe sorting rules. Accommodate complex sorting requirements by letting the sort parameter take in list of comma separated fields, each with a possible unary negative to imply descending sort order. Let's look at some examples: 
+
+- `GET /messages?sort=-createDate` - Retrieves a list of messages in descending order of createDate;
+- `GET /messages?sort=-type,createDate` - Retrieves a list of messages in descending order of type. Within a specific type, older messages are ordered first;
+
+```php
+/**
+ * @var $oSort \mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
+ */
+$oSort = $oParser->getSort();
+```
+
+### Filter
+
+Filtering is more complex then sorting. Array notation is used. Let's look at some examples: 
+
+- `GET /messages?filter[created][lt]=2018-06-01` - Retrieves a list of messages where createDate is lower than 2018-06-01;
+- `GET /messages?filter[type][in]=urgent,warning,error` - Retrieves a list of messages wgere type is urgent, warning or error;
+
+Allowed operators: `eq`,`lt`,`lte`,`gt`,`gte`,`like`,`in`,`notin`
+
+In case using not allowed operator `mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException` is thrown.
+
+```php
+/**
+ * @var $oFilter \mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter
+ */
+$oFilter = $oParser->getFilter();
+```
+
+### Limit
+
+Example:
+
+- `GET /messages?limit=20` - limitation;
+
+```php
+/**
+ * @var $iLimit integer|null
+ */
+$iLimit = $oParser->getLimit(10); // in NULL default=10
+```
+
+### Page
+
+Example:
+
+- `GET /messages?page=1` - pagination. Should be used with `limit` parameter;
+
+```php
+/**
+ * @var $iPage integer|null
+ */
+$iPage = $oParser->getPage(1); // in NULL default=1
+```
+
+### Phrase
+
+Example:
+
+- `GET /messages?phrase=foo` - for easier filtering;
+
+```php
+/**
+ * @var $sPhrase string|null
+ */
+$sPhrase = $oParser->getPhrase(); // if not set NULL ir returned
+```
+
+## Usage
+
+```php
+// Two ways to get `query` argument for RequestParser constructor:
+$query = parse_url($url, PHP_URL_QUERY); // OR
+$query = $_SERVER['QUERY_STRING'];
+
+$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
+```
+
+
+
+### Example
+
+```php
+$url = 'https://api.expample.com?sort=id,-name&filter[isFoo][eq]=1&filter[age][gt]=12&page=3&limit=10&offset=20';
+$query =  parse_url($url, PHP_URL_QUERY);
+$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query);
+
+print_r($oParser->getSort()->toArray());
+print_r($oParser->getFilter()->toArray());
+print_r($oParser->getLimit());
+print_r($oParser->getPage());
+print_r($oParser->getPhrase());
+```
+
+Result
+
+```cassandra
+Array
+(
+    [id] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
+        (
+            [param] => id
+            [direction] => ASC
+        )
+
+    [0] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
+        (
+            [param] => name
+            [direction] => DESC
+        )
+
+)
+Array
+(
+    [0] => mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam Object
+        (
+            [param] => isFoo
+            [operator] => eq
+            [sqlOperator] => =
+            [value] => 1
+        )
+
+    [1] => mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam Object
+        (
+            [param] => age
+            [operator] => gt
+            [sqlOperator] => >
+            [value] => 12
+        )
+
+)
+10 // limit
+3  // page
+20 // offset
+```
+
+
+
+## Running the tests
+
+```bash
+./vendor/bin/phpunit
+```
+
+## Authors
+
+* **Marcin Pudełek** - *Initial work* - [mrcnpdlk](https://github.com/mrcnpdlk)
+
+See also the list of [contributors](https://github.com/mrcnpdlk/url-search-parser/graphs/contributors) who participated in this project.
+
+## License
+
+Copyright (c) 2018 Marcin Pudełek / mrcnpdlk
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/mrcnpdlk/url-search-parser/blob/master/LICENSE) file for details
