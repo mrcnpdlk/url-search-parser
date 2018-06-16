@@ -4,7 +4,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/maintainability)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/maintainability)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/maintainability)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/maintainability)[![Build Status](https://travis-ci.org/mrcnpdlk/url-search-parser.svg?branch=master)](https://travis-ci.org/mrcnpdlk/url-search-parser)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/test_coverage)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/test_coverage)
 
 # Contents
@@ -13,10 +14,17 @@ This boundle has been created for parsing advanced queries to easy-to-use object
 
 Based on https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#advanced-queries
 
-[TOC]
+1. [Installation](#installation)
+2. [Supported parameters](#supported-parameters)
+   1. [Sort](#sort)
+   2. [Filter](#filter)
+   3. [Limit](#limit)
+   4. [Page](#page)
+   5. [Phrase](#phrase)
+3. [Usage](#usage)
 
 
-## Instalation
+## Installation
 
 Install the latest version with [composer](https://packagist.org/packages/mrcnpdlk/teryt-api)
 ```bash
