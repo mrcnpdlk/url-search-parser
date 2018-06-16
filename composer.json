@@ -1,6 +1,6 @@
 {
-  "name": "mrcnpdlk/url-query-parser",
-  "description": "URL query parser - filter & search params manipulation",
+  "name": "mrcnpdlk/url-search-parser",
+  "description": "URL search parser - filter & search params manipulation",
   "keywords": [
     "REST",
     "parser",

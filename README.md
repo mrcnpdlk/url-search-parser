@@ -1,9 +1,9 @@
 # mrcnpdlk/url-search-parser
-[![Latest Stable Version](https://img.shields.io/github/release/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
-[![Latest Unstable Version](https://poser.pugx.org/mrcnpdlk/url-query-parser/v/unstable.png)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
-[![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
-[![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)
-[![License](https://img.shields.io/packagist/l/mrcnpdlk/url-query-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-query-parser)   
+[![Latest Stable Version](https://img.shields.io/github/release/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
+[![Latest Unstable Version](https://poser.pugx.org/mrcnpdlk/url-search-parser/v/unstable.png)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
+[![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
+[![License](https://img.shields.io/packagist/l/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/maintainability)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/test_coverage)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/test_coverage)
 
