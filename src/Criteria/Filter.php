@@ -60,6 +60,9 @@ class Filter implements \IteratorAggregate
         }
 
         foreach ($filterArray as $param => $filters) {
+            if(!\is_string($param)){
+                throw new InvalidParamException(sprintf('Key in FILTER param is not a string'));
+            }
             if (\is_array($filters)) {
                 foreach ($filters as $operator => $value) {
                     if (!\array_key_exists($operator, self::$allowedOperators)) {

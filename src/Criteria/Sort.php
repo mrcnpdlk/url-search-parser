@@ -22,7 +22,7 @@ class Sort implements \IteratorAggregate
     /**
      * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam[]
      */
-    private $params;
+    private $params = [];
 
     /**
      * Sort constructor.
@@ -52,7 +52,7 @@ class Sort implements \IteratorAggregate
                 if (empty($param)) {
                     throw new EmptyParamException(sprintf('Empty SORT param'));
                 }
-                $this->params[$param] = new SortParam($param, self::DIRECTION_ASC);
+                $this->params[] = new SortParam($param, self::DIRECTION_ASC);
             }
         }
     }
