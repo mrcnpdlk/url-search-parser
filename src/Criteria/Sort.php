@@ -5,11 +5,11 @@
  * Time: 13:58
  */
 
-namespace mrcnpdlk\Lib\UrlQueryParser\Criteria;
+namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 
-use mrcnpdlk\Lib\UrlQueryParser\Exception;
-use mrcnpdlk\Lib\UrlQueryParser\Exception\EmptyParamException;
+use mrcnpdlk\Lib\UrlSearchParser\Exception;
+use mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 
 class Sort implements \IteratorAggregate
@@ -20,7 +20,7 @@ class Sort implements \IteratorAggregate
     public const DESC_IDENTIFIER = '-';
 
     /**
-     * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam[]
+     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
      */
     private $params = [];
 
@@ -29,7 +29,7 @@ class Sort implements \IteratorAggregate
      *
      * @param string|null $sortString
      *
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
     public function __construct(string $sortString = null)
     {
@@ -81,7 +81,7 @@ class Sort implements \IteratorAggregate
      * @param string $key
      * @param string $val
      *
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      */
     public function __set($key, $val)
     {
@@ -102,7 +102,7 @@ class Sort implements \IteratorAggregate
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam[]
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
      */
     public function toArray(): array
     {

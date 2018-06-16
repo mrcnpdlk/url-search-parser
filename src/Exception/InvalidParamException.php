@@ -5,15 +5,15 @@
  * Time: 14:17
  */
 
-namespace mrcnpdlk\Lib\UrlQueryParser\Exception;
+namespace mrcnpdlk\Lib\UrlSearchParser\Exception;
 
 
-use mrcnpdlk\Lib\UrlQueryParser\Exception;
+use mrcnpdlk\Lib\UrlSearchParser\Exception;
 
 /**
  * Class InvalidParamException
  *
- * @package mrcnpdlk\Lib\UrlQueryParser\Exception
+ * @package mrcnpdlk\Lib\UrlSearchParser\Exception
  */
 class InvalidParamException extends Exception
 {

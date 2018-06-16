@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlQueryParser\Criteria;
+namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 /**
  * Class FilterParam
  *
- * @package mrcnpdlk\Lib\UrlQueryParser\Criteria
+ * @package mrcnpdlk\Lib\UrlSearchParser\Criteria
  */
 class FilterParam
 {

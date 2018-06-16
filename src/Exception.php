@@ -5,12 +5,12 @@
  * Time: 13:37
  */
 
-namespace mrcnpdlk\Lib\UrlQueryParser;
+namespace mrcnpdlk\Lib\UrlSearchParser;
 
 /**
  * Class Exception
  *
- * @package mrcnpdlk\Lib\UrlQueryParser
+ * @package mrcnpdlk\Lib\UrlSearchParser
  */
 class Exception extends \Exception
 {

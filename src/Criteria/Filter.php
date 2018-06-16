@@ -6,16 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlQueryParser\Criteria;
+namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 
-use mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException;
+use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 use Traversable;
 
 /**
  * Class Filter
  *
- * @package mrcnpdlk\Lib\UrlQueryParser\Criteria
+ * @package mrcnpdlk\Lib\UrlSearchParser\Criteria
  */
 class Filter implements \IteratorAggregate
 {
@@ -42,7 +42,7 @@ class Filter implements \IteratorAggregate
     ];
 
     /**
-     * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam[]
+     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
      */
     private $filters = [];
 
@@ -51,7 +51,7 @@ class Filter implements \IteratorAggregate
      *
      * @param mixed $filterArray
      *
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct($filterArray = [])
     {
@@ -93,7 +93,7 @@ class Filter implements \IteratorAggregate
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam[]
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
      */
     public function toArray(): array
     {

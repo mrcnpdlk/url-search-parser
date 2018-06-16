@@ -1,15 +1,15 @@
 <?php
 
-use mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter;
-use mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam;
-use mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
 
 /**
  * Created by Marcin.
  * Date: 16.06.2018
  * Time: 23:38
  */
-class CriteriaTest extends \mrcnpdlk\Lib\UrlQueryParser\TestCase
+class CriteriaTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
 {
     public function testSortParam()
     {

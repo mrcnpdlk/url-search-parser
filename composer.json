@@ -28,7 +28,7 @@
   },
   "autoload": {
     "psr-4": {
-      "mrcnpdlk\\Lib\\UrlQueryParser\\": "src/"
+      "mrcnpdlk\\Lib\\UrlSearchParser\\": "src/"
     }
   }
 }

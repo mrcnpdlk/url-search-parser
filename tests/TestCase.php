@@ -5,7 +5,7 @@
  * Time: 23:34
  */
 
-namespace mrcnpdlk\Lib\UrlQueryParser;
+namespace mrcnpdlk\Lib\UrlSearchParser;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

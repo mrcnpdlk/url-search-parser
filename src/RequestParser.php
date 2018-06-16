@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlQueryParser;
+namespace mrcnpdlk\Lib\UrlSearchParser;
 
 
-use mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter;
-use mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
 
 class RequestParser
 {
@@ -25,11 +25,11 @@ class RequestParser
 
     private $queryParams = [];
     /**
-     * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
+     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     private $sort;
     /**
-     * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter
+     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     private $filter;
     /**
@@ -54,8 +54,8 @@ class RequestParser
      *
      * @param string $query
      *
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $query)
     {
@@ -63,7 +63,7 @@ class RequestParser
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     public function getFilter(): Filter
     {
@@ -109,7 +109,7 @@ class RequestParser
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     public function getSort(): Sort
     {
@@ -119,8 +119,8 @@ class RequestParser
     /**
      * @param string $query
      *
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     private function parse(string $query): void
     {
