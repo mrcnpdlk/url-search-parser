@@ -14,12 +14,12 @@ use mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort;
 
 class RequestParser
 {
-    public const LIMIT_IDENTIFIER = 'limit';
-    public const PAGE_IDENTIFIER  = 'page';
-    public const SORT_IDENTIFIER  = 'sort';
-
-
+    public const SORT_IDENTIFIER   = 'sort';
     public const FILTER_IDENTIFIER = 'filter';
+
+    public const LIMIT_IDENTIFIER  = 'limit';
+    public const OFFSET_IDENTIFIER = 'offset';
+    public const PAGE_IDENTIFIER   = 'page';
     public const PHRASE_IDENTIFIER = 'phrase';
 
 
@@ -36,6 +36,18 @@ class RequestParser
      * @var integer|null
      */
     private $limit;
+    /**
+     * @var integer|null
+     */
+    private $page;
+    /**
+     * @var integer|null
+     */
+    private $offset;
+    /**
+     * @var string|null
+     */
+    private $phrase;
 
     /**
      * RequestParser constructor.
@@ -69,6 +81,34 @@ class RequestParser
     }
 
     /**
+     * @param int|null $default
+     *
+     * @return int|null
+     */
+    public function getOffset(int $default = null): ?int
+    {
+        return $this->offset ?? $default;
+    }
+
+    /**
+     * @param int|null $default
+     *
+     * @return int|null
+     */
+    public function getPage(int $default = null): ?int
+    {
+        return $this->page ?? $default;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPhrase(): ?string
+    {
+        return $this->phrase;
+    }
+
+    /**
      * @return \mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
      */
     public function getSort(): Sort
@@ -89,5 +129,8 @@ class RequestParser
         $this->sort   = new Sort($this->queryParams[self::SORT_IDENTIFIER] ?? null);
         $this->filter = new Filter($this->queryParams[self::FILTER_IDENTIFIER] ?? []);
         $this->limit  = isset($this->queryParams[self::LIMIT_IDENTIFIER]) ? (int)$this->queryParams[self::LIMIT_IDENTIFIER] : null;
+        $this->offset = isset($this->queryParams[self::OFFSET_IDENTIFIER]) ? (int)$this->queryParams[self::OFFSET_IDENTIFIER] : null;
+        $this->page   = isset($this->queryParams[self::PAGE_IDENTIFIER]) ? (int)$this->queryParams[self::PAGE_IDENTIFIER] : null;
+        $this->phrase = isset($this->queryParams[self::PHRASE_IDENTIFIER]) ? (int)$this->queryParams[self::PHRASE_IDENTIFIER] : null;
     }
 }
