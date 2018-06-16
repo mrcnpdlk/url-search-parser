@@ -130,13 +130,13 @@ Result
 ```cassandra
 Array
 (
-    [id] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
+    [0] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
         (
             [param] => id
             [direction] => ASC
         )
 
-    [0] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
+    [1] => mrcnpdlk\Lib\UrlQueryParser\Criteria\SortParam Object
         (
             [param] => name
             [direction] => DESC
