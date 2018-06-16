@@ -60,11 +60,11 @@ class Sort implements \IteratorAggregate
     /**
      * @param $key
      *
-     * @return string
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam|null
      */
-    public function __get($key): string
+    public function __get($key): ?SortParam
     {
-        return $this->params[$key];
+        return $this->params[$key] ?? null;
     }
 
     /**
@@ -78,8 +78,8 @@ class Sort implements \IteratorAggregate
     }
 
     /**
-     * @param string $key
-     * @param string $val
+     * @param string    $key
+     * @param SortParam $val
      *
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      */
