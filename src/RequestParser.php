@@ -85,7 +85,6 @@ class RequestParser
     private function parse(string $query): void
     {
         parse_str($query, $this->queryParams);
-        print_r($this->queryParams);
         $this->sort   = new Sort($this->queryParams[self::SORT_IDENTIFIER] ?? null);
         $this->filter = new Filter($this->queryParams[self::FILTER_IDENTIFIER] ?? null);
         $this->limit  = isset($this->queryParams[self::LIMIT_IDENTIFIER]) ? (int)$this->queryParams[self::LIMIT_IDENTIFIER] : null;
