@@ -5,7 +5,7 @@
       <paths name="Angular.34">
         <serverdata>
           <mappings>
-            <mapping deploy="/rest-search-parser" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/url-search-parser" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

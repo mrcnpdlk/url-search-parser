@@ -1,6 +1,6 @@
 {
-  "name": "mrcnpdlk/rest-query-parser",
-  "description": "Teryt WS1 Api",
+  "name": "mrcnpdlk/url-query-parser",
+  "description": "URL query parser - filter & search params manipulation",
   "keywords": [
     "REST",
     "parser",
@@ -28,7 +28,7 @@
   },
   "autoload": {
     "psr-4": {
-      "mrcnpdlk\\Lib\\RestQueryParser": "src/"
+      "mrcnpdlk\\Lib\\UrlQueryParser\\": "src/"
     }
   }
 }

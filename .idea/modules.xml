@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/rest-search-parser.iml" filepath="$PROJECT_DIR$/.idea/rest-search-parser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/url-search-parser.iml" filepath="$PROJECT_DIR$/.idea/url-search-parser.iml" />
     </modules>
   </component>
 </project>
