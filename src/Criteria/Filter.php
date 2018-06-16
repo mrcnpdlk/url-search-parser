@@ -44,7 +44,7 @@ class Filter implements \IteratorAggregate
     /**
      * @var \mrcnpdlk\Lib\UrlQueryParser\Criteria\FilterParam[]
      */
-    private $filters;
+    private $filters = [];
 
     /**
      * Filter constructor.
