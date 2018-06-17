@@ -131,6 +131,6 @@ class RequestParser
         $this->limit  = isset($this->queryParams[self::LIMIT_IDENTIFIER]) ? (int)$this->queryParams[self::LIMIT_IDENTIFIER] : null;
         $this->offset = isset($this->queryParams[self::OFFSET_IDENTIFIER]) ? (int)$this->queryParams[self::OFFSET_IDENTIFIER] : null;
         $this->page   = isset($this->queryParams[self::PAGE_IDENTIFIER]) ? (int)$this->queryParams[self::PAGE_IDENTIFIER] : null;
-        $this->phrase = isset($this->queryParams[self::PHRASE_IDENTIFIER]) ? (int)$this->queryParams[self::PHRASE_IDENTIFIER] : null;
+        $this->phrase = isset($this->queryParams[self::PHRASE_IDENTIFIER]) ? (string)$this->queryParams[self::PHRASE_IDENTIFIER] : null;
     }
 }
