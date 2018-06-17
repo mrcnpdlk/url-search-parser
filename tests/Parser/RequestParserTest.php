@@ -87,6 +87,34 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
+    public function testParseAddons()
+    {
+        $url     = 'https://api.expample.com?foo=bar&baz=5';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'string'));
+        $this->assertEquals(5, $oParser->getQueryParam('baz', 'int'));
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \InvalidArgumentException
+     */
+    public function testParseAddonsInvalidType()
+    {
+        $url     = 'https://api.expample.com?foo=bar&baz=5';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'stringa'));
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
     public function testParseFilter()
     {
         $url      = 'https://api.expample.com?'

@@ -109,6 +109,32 @@ class RequestParser
     }
 
     /**
+     * @param string     $param
+     * @param string     $type
+     * @param mixed|null $default
+     *
+     * @return mixed|null
+     */
+    public function getQueryParam(string $param, string $type = 'string', $default = null)
+    {
+        if (isset($this->queryParams[$param])) {
+            $type = strtolower($type);
+            if (!\in_array($type, ['boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array'])) {
+                throw new \InvalidArgumentException(sprintf('Unsupported type [%s]', $type));
+            }
+            $var = $this->queryParams[$param];
+            if (!settype($var, strtolower($type))) {
+                throw new \RuntimeException(sprintf('Cannot set type [%s]', $type));
+            }
+
+
+            return $var;
+        }
+
+        return $default ?? null;
+    }
+
+    /**
      * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     public function getSort(): Sort
@@ -126,11 +152,11 @@ class RequestParser
     {
         parse_str($query, $this->queryParams);
 
-        $this->sort   = new Sort($this->queryParams[self::SORT_IDENTIFIER] ?? null);
-        $this->filter = new Filter($this->queryParams[self::FILTER_IDENTIFIER] ?? []);
-        $this->limit  = isset($this->queryParams[self::LIMIT_IDENTIFIER]) ? (int)$this->queryParams[self::LIMIT_IDENTIFIER] : null;
-        $this->offset = isset($this->queryParams[self::OFFSET_IDENTIFIER]) ? (int)$this->queryParams[self::OFFSET_IDENTIFIER] : null;
-        $this->page   = isset($this->queryParams[self::PAGE_IDENTIFIER]) ? (int)$this->queryParams[self::PAGE_IDENTIFIER] : null;
-        $this->phrase = isset($this->queryParams[self::PHRASE_IDENTIFIER]) ? (string)$this->queryParams[self::PHRASE_IDENTIFIER] : null;
+        $this->sort   = new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string'));
+        $this->filter = new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', []));
+        $this->limit  = $this->getQueryParam('limit', 'int');
+        $this->offset = $this->getQueryParam('offset', 'int');
+        $this->page   = $this->getQueryParam('page', 'int');
+        $this->phrase = $this->getQueryParam('phrase', 'string');
     }
 }
