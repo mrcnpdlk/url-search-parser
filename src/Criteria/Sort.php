@@ -8,7 +8,6 @@
 namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 
-use mrcnpdlk\Lib\UrlSearchParser\Exception;
 use mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 

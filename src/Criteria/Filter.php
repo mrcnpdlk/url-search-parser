@@ -52,6 +52,7 @@ class Filter implements \IteratorAggregate
      * @param mixed $filterArray
      *
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @todo Check PLUS sign in sitring %2B code
      */
     public function __construct($filterArray = [])
     {
