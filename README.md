@@ -5,8 +5,12 @@
 [![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/maintainability)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/maintainability)[![Build Status](https://travis-ci.org/mrcnpdlk/url-search-parser.svg?branch=master)](https://travis-ci.org/mrcnpdlk/url-search-parser)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/1a6d8d8239a0ff24b507/test_coverage)](https://codeclimate.com/github/mrcnpdlk/url-search-parser/test_coverage)
+------
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/build-status/master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
 # Contents
 

@@ -1,5 +1,6 @@
 <?php
 
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
 use mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 
@@ -88,12 +89,19 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      */
     public function testParseFilter()
     {
-        $url      = 'https://api.expample.com?filter[isFoo][eq]=1&filter[age][gt]=12&filter[type][in]=21,22,23';
+        $url      = 'https://api.expample.com?'
+            . 'filter[isFoo][eq]=1&'
+            . 'filter[age][gt]=12&'
+            . 'filter[type][in]=21,22,23&'
+            . 'filter[bar]=baz';
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tFilters = $oParser->getFilter()->toArray();
-        $this->assertEquals(3, \count($tFilters));
+        $this->assertEquals(4, \count($tFilters));
         $this->assertEquals([21, 22, 23], $tFilters[2]->value);
+        $this->assertEquals('bar', $tFilters[3]->param);
+        $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
+        $this->assertEquals('baz', $tFilters[3]->value);
 
 
         $this->assertEquals([], $oParser->getSort()->toArray());

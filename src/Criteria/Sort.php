@@ -49,43 +49,9 @@ class Sort implements \IteratorAggregate
                 }
                 $this->params[] = new SortParam($param, self::DIRECTION_DESC);
             } else {
-                if (empty($param)) {
-                    throw new EmptyParamException(sprintf('Empty SORT param'));
-                }
                 $this->params[] = new SortParam($param, self::DIRECTION_ASC);
             }
         }
-    }
-
-    /**
-     * @param $key
-     *
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam|null
-     */
-    public function __get($key): ?SortParam
-    {
-        return $this->params[$key] ?? null;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key): bool
-    {
-        return isset($this->params[$key]);
-    }
-
-    /**
-     * @param string    $key
-     * @param SortParam $val
-     *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     */
-    public function __set($key, $val)
-    {
-        throw new Exception('Direct set is not allowed');
     }
 
     /**
