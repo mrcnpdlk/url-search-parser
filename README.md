@@ -25,6 +25,7 @@ Based on https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#a
    3. [Limit](#limit)
    4. [Page](#page)
    5. [Phrase](#phrase)
+   6. [Others](#other-params)
 3. [Usage](#usage)
 
 
@@ -110,6 +111,21 @@ Example:
  */
 $sPhrase = $oParser->getPhrase(); // if not set NULL ir returned
 ```
+
+### Other params
+
+Use `getQueryParam()` method.
+
+Example:
+
+- `GET /messages?foo=bar&baz=5` - additional params;
+
+```php
+$sFoo = $oParser->getQueryParam('foo','string'); // return 'bar'
+$sBaz = $oParser->getQueryParam('baz','int'); // return 5
+```
+
+
 
 ## Usage
 
