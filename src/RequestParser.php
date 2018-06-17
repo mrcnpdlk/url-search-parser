@@ -109,26 +109,35 @@ class RequestParser
     }
 
     /**
-     * @param string     $param
-     * @param string     $type
-     * @param mixed|null $default
+     * @param string      $param
+     * @param string|null $type If NULL return value AS IS
+     * @param mixed|null  $default
      *
      * @return mixed|null
      */
-    public function getQueryParam(string $param, string $type = 'string', $default = null)
+    public function getQueryParam(string $param, string $type = null, $default = null)
     {
         if (isset($this->queryParams[$param])) {
-            $type = strtolower($type);
-            if (!\in_array($type, ['boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array'])) {
-                throw new \InvalidArgumentException(sprintf('Unsupported type [%s]', $type));
-            }
-            $var = $this->queryParams[$param];
-            if (!settype($var, strtolower($type))) {
-                throw new \RuntimeException(sprintf('Cannot set type [%s]', $type));
+            if ($type !== null) {
+                $type = strtolower($type);
+                if (!\in_array($type, ['boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array'])) {
+                    throw new \InvalidArgumentException(sprintf('Unsupported type [%s]', $type));
+                }
+                
+                $var = $this->queryParams[$param];
+
+                if ($type === 'array' && \is_string($var)) {
+                    $var = explode(',', $var);
+                } elseif ($type === 'string' && \is_array($var)) {
+                    $var = implode(',', $var);
+                } elseif (!settype($var, strtolower($type))) {
+                    throw new \RuntimeException(sprintf('Cannot set type [%s]', $type));
+                }
+
+                return $var;
             }
 
-
-            return $var;
+            return $this->queryParams[$param];
         }
 
         return $default ?? null;
