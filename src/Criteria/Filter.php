@@ -36,7 +36,7 @@ class Filter implements \IteratorAggregate
         self::PARAM_GTE   => '>=',
         self::PARAM_LT    => '<',
         self::PARAM_LTE   => '<=',
-        self::PARAM_LIKE  => null,
+        self::PARAM_LIKE  => 'like',
         self::PARAM_IN    => null,
         self::PARAM_NOTIN => null,
     ];
@@ -52,7 +52,7 @@ class Filter implements \IteratorAggregate
      * @param mixed $filterArray
      *
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @todo Check PLUS sign in sitring %2B code
+     * @todo Check PLUS sign in string %2B code
      */
     public function __construct($filterArray = [])
     {
