@@ -11,181 +11,222 @@ use mrcnpdlk\Lib\UrlSearchParser\RequestParser;
  */
 class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
 {
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     */
-    public function testEmptyParamException()
-    {
-        $url   = 'https://api.expample.com?sort=,';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 */
+	public function testEmptyParamException()
+	{
+		$url   = 'https://api.expample.com?sort=,';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     */
-    public function testEmptyParamException2()
-    {
-        $url   = 'https://api.expample.com?sort=-';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 */
+	public function testEmptyParamException2()
+	{
+		$url   = 'https://api.expample.com?sort=-';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testInvalidParamException()
-    {
-        $url   = 'https://api.expample.com?filter=3';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamException()
+	{
+		$url   = 'https://api.expample.com?filter=3';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testInvalidParamExceptionEmptyOperator()
-    {
-        $url   = 'https://api.expample.com?filter[foo][]=3';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionEmptyOperator()
+	{
+		$url   = 'https://api.expample.com?filter[foo][]=3';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testInvalidParamExceptionEmptyParam()
-    {
-        $url   = 'https://api.expample.com?filter[][eq]=3';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionEmptyParam()
+	{
+		$url   = 'https://api.expample.com?filter[][eq]=3';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testInvalidParamExceptionInvalidOperator()
-    {
-        $url   = 'https://api.expample.com?filter[foo][qwer]=3';
-        $query = parse_url($url, PHP_URL_QUERY);
-        new RequestParser($query);
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionInvalidOperator()
+	{
+		$url   = 'https://api.expample.com?filter[foo][qwer]=3';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testParseAddons()
-    {
-        $url     = 'https://api.expample.com?foo=bar&baz=5';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionInvalidPage()
+	{
+		$url   = 'https://api.expample.com?page=-1';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(5, $oParser->getQueryParam('baz', 'int'));
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionInvalidLimit()
+	{
+		$url   = 'https://api.expample.com?limit=-1';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testParseAddonsArrayAsString()
-    {
-        $url     = 'https://api.expample.com?foo=1,2,3';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testInvalidParamExceptionInvalidOffset()
+	{
+		$url   = 'https://api.expample.com?offset=-1';
+		$query = parse_url($url, PHP_URL_QUERY);
+		new RequestParser($query);
+	}
 
-        $this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testParseAddons()
+	{
+		$url     = 'https://api.expample.com?foo=bar&baz=5';
+		$query   = parse_url($url, PHP_URL_QUERY);
+		$oParser = new RequestParser($query);
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testParseAddonsArrayAsArray()
-    {
-        $url     = 'https://api.expample.com?foo[]=1&foo[]=2&foo[]=3';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
+		$this->assertEquals('bar', $oParser->getQueryParam('foo', 'string'));
+		$this->assertEquals(5, $oParser->getQueryParam('baz', 'int'));
+	}
 
-        $this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testParseAddonsArrayAsString()
+	{
+		$url     = 'https://api.expample.com?foo=1,2,3';
+		$query   = parse_url($url, PHP_URL_QUERY);
+		$oParser = new RequestParser($query);
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \InvalidArgumentException
-     */
-    public function testParseAddonsInvalidType()
-    {
-        $url     = 'https://api.expample.com?foo=bar&baz=5';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
+		$this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
+		$this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
+	}
 
-        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'stringa'));
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testParseAddonsArrayAsArray()
+	{
+		$url     = 'https://api.expample.com?foo[]=1&foo[]=2&foo[]=3';
+		$query   = parse_url($url, PHP_URL_QUERY);
+		$oParser = new RequestParser($query);
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testParseFilter()
-    {
-        $url      = 'https://api.expample.com?'
-            . 'filter[isFoo][eq]=1&'
-            . 'filter[age][gt]=12&'
-            . 'filter[type][in]=21,22,23&'
-            . 'filter[bar]=baz';
-        $query    = parse_url($url, PHP_URL_QUERY);
-        $oParser  = new RequestParser($query);
-        $tFilters = $oParser->getFilter()->toArray();
-        $this->assertEquals(4, \count($tFilters));
-        $this->assertEquals([21, 22, 23], $tFilters[2]->value);
-        $this->assertEquals('bar', $tFilters[3]->param);
-        $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
-        $this->assertEquals('baz', $tFilters[3]->value);
+		$this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
+		$this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
+	}
+
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testParseAddonsInvalidType()
+	{
+		$url     = 'https://api.expample.com?foo=bar&baz=5';
+		$query   = parse_url($url, PHP_URL_QUERY);
+		$oParser = new RequestParser($query);
+
+		$this->assertEquals('bar', $oParser->getQueryParam('foo', 'stringa'));
+	}
+
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testParseFilter()
+	{
+		$url      = 'https://api.expample.com?'
+			. 'filter[isFoo][eq]=1&'
+			. 'filter[age][gt]=12&'
+			. 'filter[type][in]=21,22,23&'
+			. 'filter[bar]=baz';
+		$query    = parse_url($url, PHP_URL_QUERY);
+		$oParser  = new RequestParser($query);
+		$tFilters = $oParser->getFilter()->toArray();
+		$this->assertEquals(4, \count($tFilters));
+		$this->assertEquals([21, 22, 23], $tFilters[2]->value);
+		$this->assertEquals('bar', $tFilters[3]->param);
+		$this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
+		$this->assertEquals('baz', $tFilters[3]->value);
 
 
-        $this->assertEquals([], $oParser->getSort()->toArray());
-        $this->assertNull($oParser->getLimit());
-        $this->assertNull($oParser->getPage());
-        $this->assertNull($oParser->getPhrase());
-        $this->assertNull($oParser->getOffset());
-    }
+		$this->assertEquals([], $oParser->getSort()->toArray());
+		$this->assertNull($oParser->getLimit());
+		$this->assertNull($oParser->getPage());
+		$this->assertNull($oParser->getPhrase());
+		$this->assertNull($oParser->getOffset());
+	}
 
-    /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testParseSort()
-    {
-        $url      = 'https://api.expample.com?sort=id,-name';
-        $query    = parse_url($url, PHP_URL_QUERY);
-        $oParser  = new RequestParser($query);
-        $tSorters = $oParser->getSort()->toArray();
-        $this->assertEquals('id', $tSorters[0]->param);
-        $this->assertEquals(Sort::DIRECTION_ASC, $tSorters[0]->direction);
-        $this->assertEquals('name', $tSorters[1]->param);
-        $this->assertEquals(Sort::DIRECTION_DESC, $tSorters[1]->direction);
-        $this->assertEquals([], $oParser->getFilter()->toArray());
-        $this->assertNull($oParser->getLimit());
-        $this->assertNull($oParser->getPage());
-        $this->assertNull($oParser->getPhrase());
-        $this->assertNull($oParser->getOffset());
-    }
+	/**
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+	 * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+	 */
+	public function testParseSort()
+	{
+		$url      = 'https://api.expample.com?sort=id,-name';
+		$query    = parse_url($url, PHP_URL_QUERY);
+		$oParser  = new RequestParser($query);
+		$tSorters = $oParser->getSort()->toArray();
+		$this->assertEquals('id', $tSorters[0]->param);
+		$this->assertEquals(Sort::DIRECTION_ASC, $tSorters[0]->direction);
+		$this->assertEquals('name', $tSorters[1]->param);
+		$this->assertEquals(Sort::DIRECTION_DESC, $tSorters[1]->direction);
+		$this->assertEquals([], $oParser->getFilter()->toArray());
+		$this->assertNull($oParser->getLimit());
+		$this->assertNull($oParser->getPage());
+		$this->assertNull($oParser->getPhrase());
+		$this->assertNull($oParser->getOffset());
+	}
 
 }
