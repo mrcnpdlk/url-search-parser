@@ -84,4 +84,20 @@ class FilterParam
     {
         return Filter::PARAM_NOTIN === $this->operator;
     }
+
+    /**
+     * @return bool
+     */
+    public function isWhereNotNull(): bool
+    {
+        return Filter::PARAM_NOTNULL === $this->operator;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWhereNull(): bool
+    {
+        return Filter::PARAM_NULL === $this->operator;
+    }
 }

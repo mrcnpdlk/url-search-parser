@@ -21,24 +21,28 @@ class Filter implements \IteratorAggregate
 {
     public const DELIMITER = ',';
 
-    public const PARAM_EQ    = 'eq';
-    public const PARAM_GT    = 'gt';
-    public const PARAM_GTE   = 'gte';
-    public const PARAM_LT    = 'lt';
-    public const PARAM_LTE   = 'lte';
-    public const PARAM_LIKE  = 'like';
-    public const PARAM_IN    = 'in';
-    public const PARAM_NOTIN = 'notin';
+    public const PARAM_EQ      = 'eq';
+    public const PARAM_GT      = 'gt';
+    public const PARAM_GTE     = 'gte';
+    public const PARAM_LT      = 'lt';
+    public const PARAM_LTE     = 'lte';
+    public const PARAM_LIKE    = 'like';
+    public const PARAM_IN      = 'in';
+    public const PARAM_NOTIN   = 'notin';
+    public const PARAM_NULL    = 'null';
+    public const PARAM_NOTNULL = 'notnull';
 
     public static $allowedOperators = [
-        self::PARAM_EQ    => '=',
-        self::PARAM_GT    => '>',
-        self::PARAM_GTE   => '>=',
-        self::PARAM_LT    => '<',
-        self::PARAM_LTE   => '<=',
-        self::PARAM_LIKE  => 'like',
-        self::PARAM_IN    => null,
-        self::PARAM_NOTIN => null,
+        self::PARAM_EQ      => '=',
+        self::PARAM_GT      => '>',
+        self::PARAM_GTE     => '>=',
+        self::PARAM_LT      => '<',
+        self::PARAM_LTE     => '<=',
+        self::PARAM_LIKE    => 'like',
+        self::PARAM_IN      => null,
+        self::PARAM_NOTIN   => null,
+        self::PARAM_NULL    => null,
+        self::PARAM_NOTNULL => null,
     ];
 
     /**
@@ -61,7 +65,7 @@ class Filter implements \IteratorAggregate
         }
 
         foreach ($filterArray as $param => $filters) {
-            if(!\is_string($param)){
+            if (!\is_string($param)) {
                 throw new InvalidParamException(sprintf('Key in FILTER param is not a string'));
             }
             if (\is_array($filters)) {
@@ -71,6 +75,9 @@ class Filter implements \IteratorAggregate
                     }
                     if (\in_array($operator, [self::PARAM_IN, self::PARAM_NOTIN], true)) {
                         $value = explode(self::DELIMITER, $value);
+                    }
+                    if (\in_array($operator, [self::PARAM_NULL, self::PARAM_NOTNULL], true)) {
+                        $value = null;
                     }
                     $this->filters[] = new FilterParam($param, $operator, $value);
                 }
