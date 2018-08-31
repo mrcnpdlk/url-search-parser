@@ -169,6 +169,36 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     /**
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testParseAddonsAsBoolFalse()
+    {
+        foreach (['0', 'false', 'FALSE', ''] as $value) {
+            $url     = 'https://api.expample.com?foo=' . $value;
+            $query   = parse_url($url, PHP_URL_QUERY);
+            $oParser = new RequestParser($query);
+
+            $this->assertEquals(false, $oParser->getQueryParam('foo', 'bool'));
+        }
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testParseAddonsAsBoolTrue()
+    {
+        foreach (['1', 'true', 'TRUE', 'foobar'] as $value) {
+            $url     = 'https://api.expample.com?foo=' . $value;
+            $query   = parse_url($url, PHP_URL_QUERY);
+            $oParser = new RequestParser($query);
+
+            $this->assertEquals(true, $oParser->getQueryParam('foo', 'bool'));
+        }
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \InvalidArgumentException
      */
     public function testParseAddonsInvalidType()

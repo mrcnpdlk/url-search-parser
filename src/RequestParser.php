@@ -132,7 +132,9 @@ class RequestParser
                     $var = explode(',', $var);
                 } elseif ($type === 'string' && \is_array($var)) {
                     $var = implode(',', $var);
-                } elseif (!settype($var, strtolower($type))) {
+                } elseif (\in_array($type, ['boolean', 'bool']) && \in_array(strtolower($var), ['true', 'false'])) {
+                    $var = (strtolower($var) === 'true');
+                } elseif (!settype($var, $type)) {
                     throw new \RuntimeException(sprintf('Cannot set type [%s]', $type));
                 }
 
