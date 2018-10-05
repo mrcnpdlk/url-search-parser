@@ -211,6 +211,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
@@ -220,15 +221,21 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
             . 'filter[isFoo][eq]=1&'
             . 'filter[age][gt]=12&'
             . 'filter[type][in]=21,22,23&'
-            . 'filter[bar]=baz';
+            . 'filter[bar]=baz&'
+            . 'filter[baz][notnull]&'
+            . 'filter[foo][null]';
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tFilters = $oParser->getFilter()->toArray();
-        $this->assertEquals(4, \count($tFilters));
+        $this->assertCount(6, $tFilters);
         $this->assertEquals([21, 22, 23], $tFilters[2]->value);
         $this->assertEquals('bar', $tFilters[3]->param);
         $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
         $this->assertEquals('baz', $tFilters[3]->value);
+        $this->assertTrue($tFilters[4]->isWhereNotNull());
+        $this->assertFalse($tFilters[4]->isWhereNull());
+        $this->assertTrue($tFilters[5]->isWhereNull());
+        $this->assertFalse($tFilters[5]->isWhereNotNull());
 
 
         $this->assertEquals([], $oParser->getSort()->toArray());
@@ -239,6 +246,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
@@ -259,6 +267,11 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertNull($oParser->getOffset());
     }
 
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
     public function testRemoveQueryParam()
     {
         $url     = 'https://api.expample.com?foo=bar';

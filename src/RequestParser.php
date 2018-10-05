@@ -11,6 +11,7 @@ namespace mrcnpdlk\Lib\UrlSearchParser;
 
 use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 
 class RequestParser
@@ -23,7 +24,13 @@ class RequestParser
     public const PAGE_IDENTIFIER   = 'page';
     public const PHRASE_IDENTIFIER = 'phrase';
 
-
+    /**
+     * @var string
+     */
+    private $query;
+    /**
+     * @var array
+     */
     private $queryParams = [];
     /**
      * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
@@ -55,12 +62,13 @@ class RequestParser
      *
      * @param string $query
      *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws Exception
+     * @throws EmptyParamException
+     * @throws InvalidParamException
      */
     public function __construct(string $query)
     {
+        $this->query = $query;
         $this->parse($query);
     }
 
@@ -108,6 +116,22 @@ class RequestParser
     public function getPhrase(): ?string
     {
         return $this->phrase;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuery(): string
+    {
+        return $this->query;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQueryHash(): string
+    {
+        return md5(json_encode($this->queryParams));
     }
 
     /**
@@ -160,7 +184,7 @@ class RequestParser
      *
      * @return $this
      */
-    public function removeQueryParam(string $param)
+    public function removeQueryParam(string $param): self
     {
         unset($this->queryParams[$param]);
 
@@ -193,4 +217,5 @@ class RequestParser
         }
         $this->phrase = $this->getQueryParam('phrase', 'string');
     }
+
 }

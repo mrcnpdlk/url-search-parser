@@ -60,9 +60,10 @@ $oSort = $oParser->getSort();
 Filtering is more complex then sorting. Array notation is used. Let's look at some examples: 
 
 - `GET /messages?filter[created][lt]=2018-06-01` - Retrieves a list of messages where createDate is lower than 2018-06-01;
-- `GET /messages?filter[type][in]=urgent,warning,error` - Retrieves a list of messages wgere type is urgent, warning or error;
+- `GET /messages?filter[type][in]=urgent,warning,error` - Retrieves a list of messages where type is urgent, warning or error;
+- `GET /messages?filter[type][null]` - Retrieves a list of messages where type is NULL;
 
-Allowed operators: `eq`,`lt`,`lte`,`gt`,`gte`,`like`,`in`,`notin`
+Allowed operators: `eq`,`lt`,`lte`,`gt`,`gte`,`like`,`in`,`notin`,`null`,`notnull`
 
 In case using not allowed operator `mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException` is thrown.
 
