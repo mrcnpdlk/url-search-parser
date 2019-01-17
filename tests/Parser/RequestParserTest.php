@@ -247,6 +247,8 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertNull($oParser->getPage());
         $this->assertNull($oParser->getPhrase());
         $this->assertNull($oParser->getOffset());
+
+        $this->assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
     }
 
     /**
