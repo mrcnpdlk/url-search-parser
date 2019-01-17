@@ -12,11 +12,12 @@ use mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
 {
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
-    public function testEmptyParamException()
+    public function testEmptyParamException(): void
     {
         $url   = 'https://api.expample.com?sort=,';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -24,11 +25,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
-    public function testEmptyParamException2()
+    public function testEmptyParamException2(): void
     {
         $url   = 'https://api.expample.com?sort=-';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -36,11 +38,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamException()
+    public function testInvalidParamException(): void
     {
         $url   = 'https://api.expample.com?filter=3';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -48,11 +51,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionEmptyOperator()
+    public function testInvalidParamExceptionEmptyOperator(): void
     {
         $url   = 'https://api.expample.com?filter[foo][]=3';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -60,11 +64,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionEmptyParam()
+    public function testInvalidParamExceptionEmptyParam(): void
     {
         $url   = 'https://api.expample.com?filter[][eq]=3';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -77,7 +82,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionInvalidLimit()
+    public function testInvalidParamExceptionInvalidLimit(): void
     {
         $url   = 'https://api.expample.com?limit=-1';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -90,7 +95,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionInvalidOffset()
+    public function testInvalidParamExceptionInvalidOffset(): void
     {
         $url   = 'https://api.expample.com?offset=-1';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -103,7 +108,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionInvalidOperator()
+    public function testInvalidParamExceptionInvalidOperator(): void
     {
         $url   = 'https://api.expample.com?filter[foo][qwer]=3';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -116,7 +121,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testInvalidParamExceptionInvalidPage()
+    public function testInvalidParamExceptionInvalidPage(): void
     {
         $url   = 'https://api.expample.com?page=-1';
         $query = parse_url($url, PHP_URL_QUERY);
@@ -128,7 +133,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseAddons()
+    public function testParseAddons(): void
     {
         $url     = 'https://api.expample.com?foo=bar&baz=5';
         $query   = parse_url($url, PHP_URL_QUERY);
@@ -139,10 +144,11 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseAddonsArrayAsArray()
+    public function testParseAddonsArrayAsArray(): void
     {
         $url     = 'https://api.expample.com?foo[]=1&foo[]=2&foo[]=3';
         $query   = parse_url($url, PHP_URL_QUERY);
@@ -153,10 +159,11 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseAddonsArrayAsString()
+    public function testParseAddonsArrayAsString(): void
     {
         $url     = 'https://api.expample.com?foo=1,2,3';
         $query   = parse_url($url, PHP_URL_QUERY);
@@ -167,10 +174,11 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseAddonsAsBoolFalse()
+    public function testParseAddonsAsBoolFalse(): void
     {
         foreach (['0', 'false', 'FALSE', ''] as $value) {
             $url     = 'https://api.expample.com?foo=' . $value;
@@ -182,10 +190,11 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseAddonsAsBoolTrue()
+    public function testParseAddonsAsBoolTrue(): void
     {
         foreach (['1', 'true', 'TRUE', 'foobar'] as $value) {
             $url     = 'https://api.expample.com?foo=' . $value;
@@ -197,11 +206,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \InvalidArgumentException
      */
-    public function testParseAddonsInvalidType()
+    public function testParseAddonsInvalidType(): void
     {
         $url     = 'https://api.expample.com?foo=bar&baz=5';
         $query   = parse_url($url, PHP_URL_QUERY);
@@ -215,7 +225,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseFilter()
+    public function testParseFilter(): void
     {
         $url      = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1&'
@@ -243,6 +253,8 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertNull($oParser->getPage());
         $this->assertNull($oParser->getPhrase());
         $this->assertNull($oParser->getOffset());
+
+        $this->assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
     }
 
     /**
