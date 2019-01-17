@@ -160,7 +160,7 @@ class RequestParser
      *
      * @return $this
      */
-    public function removeQueryParam(string $param)
+    public function removeQueryParam(string $param): self
     {
         unset($this->queryParams[$param]);
 
