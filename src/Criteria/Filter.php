@@ -53,7 +53,7 @@ class Filter implements \IteratorAggregate
     /**
      * Filter constructor.
      *
-     * @param mixed $filterArray
+     * @param array|FilterParam[] $filterArray
      *
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @todo Check PLUS sign in string %2B code
@@ -65,6 +65,11 @@ class Filter implements \IteratorAggregate
         }
 
         foreach ($filterArray as $param => $filters) {
+            if ($filters instanceof FilterParam) {
+                $this->filters[] = $filters;
+                continue;
+            }
+
             if (!\is_string($param)) {
                 throw new InvalidParamException(sprintf('Key in FILTER param is not a string'));
             }
@@ -85,6 +90,24 @@ class Filter implements \IteratorAggregate
                 $this->filters[] = new FilterParam($param, self::PARAM_EQ, $filters);
             }
         }
+    }
+
+    /**
+     * @param string $param
+     *
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function getByParam(string $param): Filter
+    {
+        $params = [];
+        foreach ($this as $item) {
+            if ($item->param === $param) {
+                $params[] = $item;
+            }
+        }
+
+        return new self($params);
     }
 
     /**
