@@ -1,7 +1,9 @@
 <?php
 
 use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 use mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 
 /**
@@ -35,6 +37,41 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $url   = 'https://api.expample.com?sort=-';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testFilter_appendParam(): void
+    {
+        $url     = 'https://api.expample.com?'
+            . 'filter[isFoo][eq]=1';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
+        $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
+    }
+
+    /**
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testFilter_replaceParam(): void
+    {
+        $url     = 'https://api.expample.com?'
+            . 'filter[isFoo][eq]=1';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->getFilter()->replaceParam(new FilterParam('isFoo', 'eq', 0));
+        $this->assertCount(1, $oParser->getFilter());
+
+        $oParser->getFilter()->replaceParam(new FilterParam('bar', 'eq', 'bar'));
+        $this->assertCount(2, $oParser->getFilter());
     }
 
     /**
@@ -255,6 +292,8 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertNull($oParser->getOffset());
 
         $this->assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
+
+
     }
 
     /**
