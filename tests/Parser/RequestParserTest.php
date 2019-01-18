@@ -74,12 +74,6 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertCount(2, $oParser->getFilter());
     }
 
-    public function testInvalidFilterConstructor(): void
-    {
-        $this->expectException(InvalidParamException::class);
-        new Filter('aaa');
-    }
-
     /**
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException

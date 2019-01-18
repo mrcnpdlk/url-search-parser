@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
+use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
+
 /**
  * Class FilterParam
  *
@@ -38,11 +40,20 @@ class FilterParam
      * @param string $param
      * @param string $operator
      * @param        $value
+     *
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $param, string $operator, $value)
     {
-        $this->param       = $param;
-        $this->operator    = $operator;
+        $this->param    = $param;
+        $this->operator = strtolower(trim($operator));
+        if (!array_key_exists($this->operator, Filter::$allowedOperators)) {
+            throw new InvalidParamException(
+                sprintf('Invalid operator. Only one of "%s" is allowed',
+                    implode(',', array_keys(Filter::$allowedOperators))
+                )
+            );
+        }
         $this->sqlOperator = Filter::$allowedOperators[$operator];
         $this->value       = $value;
     }
