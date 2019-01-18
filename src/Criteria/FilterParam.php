@@ -49,7 +49,8 @@ class FilterParam
         $this->operator = strtolower(trim($operator));
         if (!array_key_exists($this->operator, Filter::$allowedOperators)) {
             throw new InvalidParamException(
-                sprintf('Invalid operator. Only one of "%s" is allowed',
+                sprintf('Invalid operator "%s". Only one of "%s" is allowed',
+                    $this->operator,
                     implode(',', array_keys(Filter::$allowedOperators))
                 )
             );
