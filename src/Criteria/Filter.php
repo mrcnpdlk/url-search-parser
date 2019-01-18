@@ -66,7 +66,7 @@ class Filter implements \IteratorAggregate
 
         foreach ($filterArray as $param => $filters) {
             if ($filters instanceof FilterParam) {
-                $this->filters[] = $filters;
+                $this->appendParam($filters);
                 continue;
             }
 
@@ -84,25 +84,37 @@ class Filter implements \IteratorAggregate
                     if (\in_array($operator, [self::PARAM_NULL, self::PARAM_NOTNULL], true)) {
                         $value = null;
                     }
-                    $this->filters[] = new FilterParam($param, $operator, $value);
+                    $this->appendParam(new FilterParam($param, $operator, $value));
                 }
             } elseif (\is_string($filters)) {
-                $this->filters[] = new FilterParam($param, self::PARAM_EQ, $filters);
+                $this->appendParam(new FilterParam($param, self::PARAM_EQ, $filters));
             }
         }
     }
 
     /**
-     * @param string $param
+     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
+     *
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     */
+    public function appendParam(FilterParam $filterParam): Filter
+    {
+        $this->filters[] = $filterParam;
+
+        return $this;
+    }
+
+    /**
+     * @param string $paramName
      *
      * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function getByParam(string $param): Filter
+    public function getByParam(string $paramName): Filter
     {
         $params = [];
         foreach ($this as $item) {
-            if ($item->param === $param) {
+            if ($item->param === $paramName) {
                 $params[] = $item;
             }
         }
@@ -121,6 +133,28 @@ class Filter implements \IteratorAggregate
     public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->filters);
+    }
+
+    /**
+     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
+     *
+     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     */
+    public function replaceParam(FilterParam $filterParam): Filter
+    {
+        $isChanged = false;
+        foreach ($this->filters as &$filter) {
+            if ($filter->param === $filterParam->param && $filter->operator = $filterParam->operator) {
+                $filter->value = $filterParam->value;
+                $isChanged     = true;
+            }
+        }
+        unset($filter);
+        if (!$isChanged) {
+            $this->appendParam($filterParam);
+        }
+
+        return $this;
     }
 
     /**
