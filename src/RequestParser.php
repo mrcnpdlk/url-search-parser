@@ -192,6 +192,90 @@ class RequestParser
     }
 
     /**
+     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter $filter
+     *
+     * @return $this
+     */
+    public function setFilter(Filter $filter): self
+    {
+        $this->filter = $filter;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $limit
+     *
+     * @return $this
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function setLimit(?int $limit): self
+    {
+        $this->limit = $limit;
+        if (null !== $this->limit && $this->limit < 0) {
+            throw new InvalidParamException('Limit value cannot be lower than 0');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $offset
+     *
+     * @return $this
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function setOffset(?int $offset): self
+    {
+        $this->offset = $offset;
+        if (null !== $this->offset && $this->offset < 0) {
+            throw new InvalidParamException('Offset value cannot be lower than 0');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $page
+     *
+     * @return $this
+     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function setPage(?int $page): self
+    {
+        $this->page = $page;
+        if (null !== $this->page && $this->page < 0) {
+            throw new InvalidParamException('Page value cannot be lower than 0');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $phrase
+     *
+     * @return $this
+     */
+    public function setPhrase(?string $phrase): self
+    {
+        $this->phrase = $phrase;
+
+        return $this;
+    }
+
+    /**
+     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort $sort
+     *
+     * @return $this
+     */
+    public function setSort(Sort $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
      * @param string $query
      *
      * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
@@ -201,21 +285,12 @@ class RequestParser
     {
         parse_str($query, $this->queryParams);
 
-        $this->sort   = new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string'));
-        $this->filter = new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', []));
-        $this->limit  = $this->getQueryParam('limit', 'int');
-        if (null !== $this->limit && $this->limit < 0) {
-            throw new InvalidParamException('Limit value cannot be lower than 0');
-        }
-        $this->offset = $this->getQueryParam('offset', 'int');
-        if (null !== $this->offset && $this->offset < 0) {
-            throw new InvalidParamException('Offset value cannot be lower than 0');
-        }
-        $this->page = $this->getQueryParam('page', 'int');
-        if (null !== $this->page && $this->page < 0) {
-            throw new InvalidParamException('Page value cannot be lower than 0');
-        }
-        $this->phrase = $this->getQueryParam('phrase', 'string');
+        $this->setSort(new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string')));
+        $this->setFilter(new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', [])));
+        $this->setLimit($this->getQueryParam('limit', 'int'));
+        $this->setOffset($this->getQueryParam('offset', 'int'));
+        $this->setPage($this->getQueryParam('page', 'int'));
+        $this->setPhrase($this->getQueryParam('phrase', 'string'));
     }
 
 }
