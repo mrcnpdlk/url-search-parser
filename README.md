@@ -10,7 +10,12 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/build-status/master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/mrcnpdlk/url-search-parser/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+
+[![Code Climate](https://codeclimate.com/github/mrcnpdlk/url-search-parser/badges/gpa.svg)](https://codeclimate.com/github/mrcnpdlk/url-search-parser) 
+[![Issue Count](https://codeclimate.com/github/mrcnpdlk/url-search-parser/badges/issue_count.svg)](https://codeclimate.com/github/mrcnpdlk/url-search-parser)
+
+
+[![Build Status](https://travis-ci.com/mrcnpdlk/url-search-parser.svg?branch=master)](https://travis-ci.com/mrcnpdlk/url-search-parser)
 
 # Contents
 
@@ -38,7 +43,7 @@ composer require mrcnpdlk/url-search-parser
 ## Supported parameters
 
 ```php
-$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
+$oParser = new \Mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
 ```
 
 ### Sort
@@ -50,7 +55,7 @@ Generic parameter `sort` can be used to describe sorting rules. Accommodate co
 
 ```php
 /**
- * @var $oSort \mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
+ * @var $oSort \Mrcnpdlk\Lib\UrlQueryParser\Criteria\Sort
  */
 $oSort = $oParser->getSort();
 ```
@@ -69,7 +74,7 @@ In case using not allowed operator `mrcnpdlk\Lib\UrlQueryParser\Exception\Invali
 
 ```php
 /**
- * @var $oFilter \mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter
+ * @var $oFilter \Mrcnpdlk\Lib\UrlQueryParser\Criteria\Filter
  */
 $oFilter = $oParser->getFilter();
 ```
@@ -135,7 +140,7 @@ $sBaz = $oParser->getQueryParam('baz','int'); // return 5
 $query = parse_url($url, PHP_URL_QUERY); // OR
 $query = $_SERVER['QUERY_STRING'];
 
-$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
+$oParser = new \Mrcnpdlk\Lib\UrlQueryParser\RequestParser($query); 
 ```
 
 
@@ -145,7 +150,7 @@ $oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query);
 ```php
 $url = 'https://api.expample.com?sort=id,-name&filter[isFoo][eq]=1&filter[age][gt]=12&page=3&limit=10&offset=20';
 $query =  parse_url($url, PHP_URL_QUERY);
-$oParser = new \mrcnpdlk\Lib\UrlQueryParser\RequestParser($query);
+$oParser = new \Mrcnpdlk\Lib\UrlQueryParser\RequestParser($query);
 
 print_r($oParser->getSort()->toArray());
 print_r($oParser->getFilter()->toArray());

@@ -1,5 +1,8 @@
 <?php
 
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 $rules = [
     // default
     '@PSR2'                      => true,
@@ -22,14 +25,14 @@ $rules = [
     'binary_operator_spaces'     => ['default' => 'align'],
 ];
 
-$finder = (new \PhpCsFixer\Finder())
+$finder = (new Finder())
     ->files()
     ->name('*.php')
     ->in(__DIR__ . '/src')
     ->in(__DIR__ . '/tests')
 ;
 
-return (new \PhpCsFixer\Config('unoconv-api'))
+return (new Config('url-search-parser'))
     ->setRiskyAllowed(true)
     ->setRules($rules)
     ->setFinder($finder)
