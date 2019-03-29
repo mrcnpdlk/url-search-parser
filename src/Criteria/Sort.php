@@ -12,6 +12,9 @@ use IteratorAggregate;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 
+/**
+ * Class Sort
+ */
 class Sort implements IteratorAggregate
 {
     public const DIRECTION_ASC   = 'ASC';

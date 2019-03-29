@@ -111,4 +111,12 @@ class FilterParam
     {
         return Filter::PARAM_NULL === $this->operator;
     }
+
+    /**
+     * @return bool
+     */
+    public function isWhereNot(): bool
+    {
+        return Filter::PARAM_NOT === $this->operator;
+    }
 }

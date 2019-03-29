@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
+/**
+ * Class SortParam
+ */
 class SortParam
 {
     /**
