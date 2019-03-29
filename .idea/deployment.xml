@@ -7,6 +7,23 @@
           <mappings>
             <mapping deploy="/url-search-parser" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="C1-CSV3">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="DEV">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
         </serverdata>
       </paths>
       <paths name="Daimos.49">
@@ -37,14 +54,21 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="NMS">
+      <paths name="VOD.51">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="VOD.51">
+      <paths name="X">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="c1-csv3">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

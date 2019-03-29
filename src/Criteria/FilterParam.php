@@ -6,14 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
+namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
-use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
+use function in_array;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 
 /**
  * Class FilterParam
- *
- * @package mrcnpdlk\Lib\UrlSearchParser\Criteria
  */
 class FilterParam
 {
@@ -39,9 +38,9 @@ class FilterParam
      *
      * @param string $param
      * @param string $operator
-     * @param        $value
+     * @param mixed  $value
      *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $param, string $operator, $value)
     {
@@ -64,7 +63,7 @@ class FilterParam
      */
     public function isWhere(): bool
     {
-        return \in_array($this->operator, [
+        return in_array($this->operator, [
             Filter::PARAM_EQ,
             Filter::PARAM_GT,
             Filter::PARAM_GTE,

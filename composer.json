@@ -23,14 +23,34 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~6.3",
-    "phpunit/php-code-coverage": "~5.3"
+    "phpunit/phpunit": "^7",
+    "phpunit/php-code-coverage": "^6",
+    "friendsofphp/php-cs-fixer": "^2",
+    "phpstan/phpstan": "^0",
+    "phpstan/phpstan-phpunit": "^0",
+    "jangregor/phpstan-prophecy": "^0"
   },
   "suggest": {
   },
   "autoload": {
     "psr-4": {
-      "mrcnpdlk\\Lib\\UrlSearchParser\\": "src/"
+      "Mrcnpdlk\\Lib\\UrlSearchParser\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Mrcnpdlk\\Lib\\UrlSearchParser\\": "tests/suits/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@phpstan",
+      "@lint",
+      "@phpunit"
+    ],
+    "phpunit": "phpunit --configuration phpunit.xml --coverage-text --colors=never",
+    "phpstan": "phpstan analyse",
+    "fixer": "php-cs-fixer fix --diff --show-progress=dots",
+    "lint": "php-cs-fixer fix --diff --dry-run"
   }
 }

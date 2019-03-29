@@ -5,13 +5,14 @@
  * Time: 13:58
  */
 
-namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
+namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
-
-use mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
+use ArrayIterator;
+use IteratorAggregate;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 
-class Sort implements \IteratorAggregate
+class Sort implements IteratorAggregate
 {
     public const DIRECTION_ASC   = 'ASC';
     public const DIRECTION_DESC  = 'DESC';
@@ -19,7 +20,7 @@ class Sort implements \IteratorAggregate
     public const DESC_IDENTIFIER = '-';
 
     /**
-     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
+     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
      */
     private $params = [];
 
@@ -28,12 +29,12 @@ class Sort implements \IteratorAggregate
      *
      * @param string|null $sortString
      *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
     public function __construct(string $sortString = null)
     {
         /**
-         * @var string[] $tParams
+         * @var string[]
          * @var string   $param
          */
         $tParams = $sortString ? explode(self::DELIMITER, $sortString) : [];
@@ -41,7 +42,7 @@ class Sort implements \IteratorAggregate
             if (empty($param)) {
                 throw new EmptyParamException(sprintf('Empty SORT param'));
             }
-            if ($param[0] === self::DESC_IDENTIFIER) {
+            if (self::DESC_IDENTIFIER === $param[0]) {
                 $param = substr($param, 1);
                 if (empty($param)) {
                     throw new EmptyParamException(sprintf('Empty SORT param'));
@@ -56,22 +57,23 @@ class Sort implements \IteratorAggregate
     /**
      * Retrieve an external iterator
      *
-     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @see  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
+     *                     <b>Traversable</b>
+     *
      * @since 5.0.0
      */
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->params);
+        return new ArrayIterator($this->params);
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
      */
     public function toArray(): array
     {
         return $this->params;
     }
-
 }

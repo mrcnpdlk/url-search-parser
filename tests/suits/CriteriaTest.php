@@ -1,17 +1,23 @@
 <?php
 
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
+namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
+
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Created by Marcin.
  * Date: 16.06.2018
  * Time: 23:38
  */
-class CriteriaTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
+class CriteriaTest extends TestCase
 {
-    public function testFilterParam()
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testFilterParam(): void
     {
         $oFilterParam = new FilterParam('foo', Filter::PARAM_EQ, 1);
         $this->assertEquals('foo', $oFilterParam->param);
@@ -55,7 +61,6 @@ class CriteriaTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NOTNULL, null);
         $this->assertEquals(null, $oFilterParam->sqlOperator);
         $this->assertEquals(true, $oFilterParam->isWhereNotNull());
-
     }
 
     public function testSortParam()
@@ -64,5 +69,4 @@ class CriteriaTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertEquals('foo', $oSortParam->param);
         $this->assertEquals('asc', $oSortParam->direction);
     }
-
 }
