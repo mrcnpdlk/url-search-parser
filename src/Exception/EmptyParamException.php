@@ -5,17 +5,13 @@
  * Time: 14:18
  */
 
-namespace mrcnpdlk\Lib\UrlSearchParser\Exception;
+namespace Mrcnpdlk\Lib\UrlSearchParser\Exception;
 
-
-use mrcnpdlk\Lib\UrlSearchParser\Exception;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception;
 
 /**
  * Class EmptyParamException
- *
- * @package mrcnpdlk\Lib\UrlSearchParser\Exception
  */
 class EmptyParamException extends Exception
 {
-
 }

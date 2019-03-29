@@ -6,13 +6,17 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlSearchParser;
+namespace Mrcnpdlk\Lib\UrlSearchParser;
 
-
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
-use mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
-use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
+use function in_array;
+use InvalidArgumentException;
+use function is_array;
+use function is_string;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
+use RuntimeException;
 
 class RequestParser
 {
@@ -33,23 +37,23 @@ class RequestParser
      */
     private $queryParams = [];
     /**
-     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
+     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     private $sort;
     /**
-     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     private $filter;
     /**
-     * @var integer|null
+     * @var int|null
      */
     private $limit;
     /**
-     * @var integer|null
+     * @var int|null
      */
     private $page;
     /**
-     * @var integer|null
+     * @var int|null
      */
     private $offset;
     /**
@@ -73,7 +77,7 @@ class RequestParser
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     public function getFilter(): Filter
     {
@@ -111,7 +115,7 @@ class RequestParser
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPhrase(): ?string
     {
@@ -136,7 +140,7 @@ class RequestParser
 
     /**
      * @param string      $param
-     * @param string|null $type If NULL return value AS IS
+     * @param string|null $type    If NULL return value AS IS
      * @param mixed|null  $default
      *
      * @return mixed|null
@@ -144,22 +148,22 @@ class RequestParser
     public function getQueryParam(string $param, string $type = null, $default = null)
     {
         if (isset($this->queryParams[$param])) {
-            if ($type !== null) {
+            if (null !== $type) {
                 $type = strtolower($type);
-                if (!\in_array($type, ['boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array'])) {
-                    throw new \InvalidArgumentException(sprintf('Unsupported type [%s]', $type));
+                if (!in_array($type, ['boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array'])) {
+                    throw new InvalidArgumentException(sprintf('Unsupported type [%s]', $type));
                 }
 
                 $var = $this->queryParams[$param];
 
-                if ($type === 'array' && \is_string($var)) {
+                if ('array' === $type && is_string($var)) {
                     $var = explode(',', $var);
-                } elseif ($type === 'string' && \is_array($var)) {
+                } elseif ('string' === $type && is_array($var)) {
                     $var = implode(',', $var);
-                } elseif (\in_array($type, ['boolean', 'bool']) && \in_array(strtolower($var), ['true', 'false'])) {
-                    $var = (strtolower($var) === 'true');
+                } elseif (in_array($type, ['boolean', 'bool']) && in_array(strtolower($var), ['true', 'false'])) {
+                    $var = ('true' === strtolower($var));
                 } elseif (!settype($var, $type)) {
-                    throw new \RuntimeException(sprintf('Cannot set type [%s]', $type));
+                    throw new RuntimeException(sprintf('Cannot set type [%s]', $type));
                 }
 
                 return $var;
@@ -172,7 +176,7 @@ class RequestParser
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     public function getSort(): Sort
     {
@@ -192,7 +196,7 @@ class RequestParser
     }
 
     /**
-     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter $filter
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter $filter
      *
      * @return $this
      */
@@ -206,8 +210,9 @@ class RequestParser
     /**
      * @param int|null $limit
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
      * @return $this
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function setLimit(?int $limit): self
     {
@@ -222,8 +227,9 @@ class RequestParser
     /**
      * @param int|null $offset
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
      * @return $this
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function setOffset(?int $offset): self
     {
@@ -238,8 +244,9 @@ class RequestParser
     /**
      * @param int|null $page
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
      * @return $this
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function setPage(?int $page): self
     {
@@ -264,7 +271,7 @@ class RequestParser
     }
 
     /**
-     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort $sort
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort $sort
      *
      * @return $this
      */
@@ -278,8 +285,8 @@ class RequestParser
     /**
      * @param string $query
      *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     private function parse(string $query): void
     {
@@ -287,10 +294,9 @@ class RequestParser
 
         $this->setSort(new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string')));
         $this->setFilter(new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', [])));
-        $this->setLimit($this->getQueryParam('limit', 'int'));
-        $this->setOffset($this->getQueryParam('offset', 'int'));
-        $this->setPage($this->getQueryParam('page', 'int'));
-        $this->setPhrase($this->getQueryParam('phrase', 'string'));
+        $this->setLimit($this->getQueryParam(self::LIMIT_IDENTIFIER, 'int'));
+        $this->setOffset($this->getQueryParam(self::OFFSET_IDENTIFIER, 'int'));
+        $this->setPage($this->getQueryParam(self::PAGE_IDENTIFIER, 'int'));
+        $this->setPhrase($this->getQueryParam(self::PHRASE_IDENTIFIER, 'string'));
     }
-
 }

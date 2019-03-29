@@ -6,18 +6,22 @@
  */
 declare(strict_types=1);
 
-namespace mrcnpdlk\Lib\UrlSearchParser\Criteria;
+namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
-
-use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
+use function array_key_exists;
+use ArrayIterator;
+use function gettype;
+use function in_array;
+use function is_array;
+use function is_string;
+use IteratorAggregate;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 use Traversable;
 
 /**
  * Class Filter
- *
- * @package mrcnpdlk\Lib\UrlSearchParser\Criteria
  */
-class Filter implements \IteratorAggregate
+class Filter implements IteratorAggregate
 {
     public const DELIMITER = ',';
 
@@ -31,6 +35,7 @@ class Filter implements \IteratorAggregate
     public const PARAM_NOTIN   = 'notin';
     public const PARAM_NULL    = 'null';
     public const PARAM_NOTNULL = 'notnull';
+    public const PARAM_NOT     = 'not';
 
     public static $allowedOperators = [
         self::PARAM_EQ      => '=',
@@ -43,10 +48,11 @@ class Filter implements \IteratorAggregate
         self::PARAM_NOTIN   => null,
         self::PARAM_NULL    => null,
         self::PARAM_NOTNULL => null,
+        self::PARAM_NOT     => '!=',
     ];
 
     /**
-     * @var \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
+     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
      */
     private $filters = [];
 
@@ -55,47 +61,49 @@ class Filter implements \IteratorAggregate
      *
      * @param array|FilterParam[] $filterArray
      *
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
      * @todo Check PLUS sign in string %2B code
      */
     public function __construct($filterArray = [])
     {
-        if (!\is_array($filterArray)) {
-            throw new InvalidParamException(sprintf('FILTER params are invalid. Is [%s], Array expected', \gettype($filterArray)));
+        if (!is_array($filterArray)) {
+            throw new InvalidParamException(sprintf('FILTER params are invalid. Is [%s], Array expected', gettype($filterArray)));
         }
 
+        /** @var FilterParam|string|array $filters */
         foreach ($filterArray as $param => $filters) {
             if ($filters instanceof FilterParam) {
                 $this->appendParam($filters);
                 continue;
             }
 
-            if (!\is_string($param)) {
+            if (!is_string($param)) {
                 throw new InvalidParamException(sprintf('Key in FILTER param is not a string'));
             }
-            if (\is_array($filters)) {
+            if (is_array($filters)) {
                 foreach ($filters as $operator => $value) {
-                    if (!\array_key_exists($operator, self::$allowedOperators)) {
+                    if (!array_key_exists($operator, self::$allowedOperators)) {
                         throw new InvalidParamException(sprintf('Operator [%s] in FILTER is not allowed', $operator));
                     }
-                    if (\in_array($operator, [self::PARAM_IN, self::PARAM_NOTIN], true)) {
+                    if (in_array($operator, [self::PARAM_IN, self::PARAM_NOTIN], true)) {
                         $value = explode(self::DELIMITER, $value);
                     }
-                    if (\in_array($operator, [self::PARAM_NULL, self::PARAM_NOTNULL], true)) {
+                    if (in_array($operator, [self::PARAM_NULL, self::PARAM_NOTNULL], true)) {
                         $value = null;
                     }
                     $this->appendParam(new FilterParam($param, $operator, $value));
                 }
-            } elseif (\is_string($filters)) {
+            } elseif (is_string($filters)) {
                 $this->appendParam(new FilterParam($param, self::PARAM_EQ, $filters));
             }
         }
     }
 
     /**
-     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
      *
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     public function appendParam(FilterParam $filterParam): Filter
     {
@@ -107,8 +115,9 @@ class Filter implements \IteratorAggregate
     /**
      * @param string $paramName
      *
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     public function getByParam(string $paramName): Filter
     {
@@ -125,20 +134,22 @@ class Filter implements \IteratorAggregate
     /**
      * Retrieve an external iterator
      *
-     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @see   http://php.net/manual/en/iteratoraggregate.getiterator.php
+     *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
+     *                     <b>Traversable</b>
+     *
      * @since 5.0.0
      */
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->filters);
+        return new ArrayIterator($this->filters);
     }
 
     /**
-     * @param \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
      *
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
     public function replaceParam(FilterParam $filterParam): Filter
     {
@@ -158,7 +169,7 @@ class Filter implements \IteratorAggregate
     }
 
     /**
-     * @return \mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam[]
      */
     public function toArray(): array
     {

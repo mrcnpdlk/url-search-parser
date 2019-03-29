@@ -1,48 +1,52 @@
 <?php
 
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
-use mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
-use mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
-use mrcnpdlk\Lib\UrlSearchParser\RequestParser;
+namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
+
+use http\Exception\InvalidArgumentException;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
+use Mrcnpdlk\Lib\UrlSearchParser\RequestParser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Created by Marcin.
  * Date: 16.06.2018
  * Time: 23:37
  */
-class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
+class RequestParserTest extends TestCase
 {
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testEmptyParamException(): void
     {
+        $this->expectException(EmptyParamException::class);
         $url   = 'https://api.expample.com?sort=,';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testEmptyParamException2(): void
     {
+        $this->expectException(EmptyParamException::class);
         $url   = 'https://api.expample.com?sort=-';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testFilter_appendParam(): void
     {
@@ -53,12 +57,13 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
 
         $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
         $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
+        $this->assertSame($query,$oParser->getQuery());
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testFilter_replaceParam(): void
     {
@@ -75,10 +80,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamException(): void
     {
@@ -88,10 +93,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyOperator(): void
     {
@@ -101,10 +106,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyParam(): void
     {
@@ -114,10 +119,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidLimit(): void
     {
@@ -127,10 +132,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOffset(): void
     {
@@ -140,10 +145,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOperator(): void
     {
@@ -153,10 +158,10 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidPage(): void
     {
@@ -166,9 +171,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddons(): void
     {
@@ -181,9 +186,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsArrayAsArray(): void
     {
@@ -196,9 +201,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsArrayAsString(): void
     {
@@ -211,9 +216,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsAsBoolFalse(): void
     {
@@ -227,9 +232,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsAsBoolTrue(): void
     {
@@ -243,13 +248,13 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \InvalidArgumentException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsInvalidType(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
         $url     = 'https://api.expample.com?foo=bar&baz=5';
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
@@ -258,9 +263,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseFilter(): void
     {
@@ -270,11 +275,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
             . 'filter[type][in]=21,22,23&'
             . 'filter[bar]=baz&'
             . 'filter[baz][notnull]&'
-            . 'filter[foo][null]';
+            . 'filter[foo][null]&'
+            . 'filter[foo][not]=2';
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tFilters = $oParser->getFilter()->toArray();
-        $this->assertCount(6, $tFilters);
+        $this->assertCount(7, $tFilters);
         $this->assertEquals([21, 22, 23], $tFilters[2]->value);
         $this->assertEquals('bar', $tFilters[3]->param);
         $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
@@ -283,7 +289,7 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertFalse($tFilters[4]->isWhereNull());
         $this->assertTrue($tFilters[5]->isWhereNull());
         $this->assertFalse($tFilters[5]->isWhereNotNull());
-
+        $this->assertTrue($tFilters[6]->isWhereNot());
 
         $this->assertEquals([], $oParser->getSort()->toArray());
         $this->assertNull($oParser->getLimit());
@@ -292,14 +298,12 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $this->assertNull($oParser->getOffset());
 
         $this->assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
-
-
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseSort()
     {
@@ -319,9 +323,9 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
     }
 
     /**
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testRemoveQueryParam()
     {
@@ -333,5 +337,4 @@ class RequestParserTest extends \mrcnpdlk\Lib\UrlSearchParser\TestCase
         $oParser->removeQueryParam('foo');
         $this->assertEquals(null, $oParser->getQueryParam('foo'));
     }
-
 }
