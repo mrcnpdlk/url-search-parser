@@ -294,9 +294,9 @@ class RequestParser
 
         $this->setSort(new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string')));
         $this->setFilter(new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', [])));
-        $this->setLimit($this->getQueryParam('limit', 'int'));
-        $this->setOffset($this->getQueryParam('offset', 'int'));
-        $this->setPage($this->getQueryParam('page', 'int'));
-        $this->setPhrase($this->getQueryParam('phrase', 'string'));
+        $this->setLimit($this->getQueryParam(self::LIMIT_IDENTIFIER, 'int'));
+        $this->setOffset($this->getQueryParam(self::OFFSET_IDENTIFIER, 'int'));
+        $this->setPage($this->getQueryParam(self::PAGE_IDENTIFIER, 'int'));
+        $this->setPhrase($this->getQueryParam(self::PHRASE_IDENTIFIER, 'string'));
     }
 }
