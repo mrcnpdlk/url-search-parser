@@ -35,6 +35,7 @@ class Filter implements IteratorAggregate
     public const PARAM_NOTIN   = 'notin';
     public const PARAM_NULL    = 'null';
     public const PARAM_NOTNULL = 'notnull';
+    public const PARAM_NOT     = 'not';
 
     public static $allowedOperators = [
         self::PARAM_EQ      => '=',
@@ -47,6 +48,7 @@ class Filter implements IteratorAggregate
         self::PARAM_NOTIN   => null,
         self::PARAM_NULL    => null,
         self::PARAM_NOTNULL => null,
+        self::PARAM_NOT     => '!=',
     ];
 
     /**
