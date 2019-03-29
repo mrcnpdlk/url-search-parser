@@ -2,9 +2,11 @@
 
 namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
 
+use http\Exception\InvalidArgumentException;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 use PHPUnit\Framework\TestCase;
 
@@ -19,10 +21,10 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
     public function testEmptyParamException(): void
     {
+        $this->expectException(EmptyParamException::class);
         $url   = 'https://api.expample.com?sort=,';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -32,10 +34,10 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      */
     public function testEmptyParamException2(): void
     {
+        $this->expectException(EmptyParamException::class);
         $url   = 'https://api.expample.com?sort=-';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -55,6 +57,7 @@ class RequestParserTest extends TestCase
 
         $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
         $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
+        $this->assertSame($query,$oParser->getQuery());
     }
 
     /**
@@ -248,10 +251,10 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     * @expectedException \InvalidArgumentException
      */
     public function testParseAddonsInvalidType(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
         $url     = 'https://api.expample.com?foo=bar&baz=5';
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
@@ -272,11 +275,12 @@ class RequestParserTest extends TestCase
             . 'filter[type][in]=21,22,23&'
             . 'filter[bar]=baz&'
             . 'filter[baz][notnull]&'
-            . 'filter[foo][null]';
+            . 'filter[foo][null]&'
+            . 'filter[foo][not]=2';
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tFilters = $oParser->getFilter()->toArray();
-        $this->assertCount(6, $tFilters);
+        $this->assertCount(7, $tFilters);
         $this->assertEquals([21, 22, 23], $tFilters[2]->value);
         $this->assertEquals('bar', $tFilters[3]->param);
         $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
@@ -285,6 +289,7 @@ class RequestParserTest extends TestCase
         $this->assertFalse($tFilters[4]->isWhereNull());
         $this->assertTrue($tFilters[5]->isWhereNull());
         $this->assertFalse($tFilters[5]->isWhereNotNull());
+        $this->assertTrue($tFilters[6]->isWhereNot());
 
         $this->assertEquals([], $oParser->getSort()->toArray());
         $this->assertNull($oParser->getLimit());
