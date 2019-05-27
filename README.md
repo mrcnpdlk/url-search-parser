@@ -4,6 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/url-search-parser.svg)](https://packagist.org/packages/mrcnpdlk/url-search-parser)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmrcnpdlk%2Furl-search-parser.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmrcnpdlk%2Furl-search-parser?ref=badge_shield)
 
 ------
 
@@ -220,3 +221,6 @@ See also the list of [contributors](https://github.com/mrcnpdlk/url-search-parse
 Copyright (c) 2018 Marcin Pudełek / mrcnpdlk
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/mrcnpdlk/url-search-parser/blob/master/LICENSE) file for details
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmrcnpdlk%2Furl-search-parser.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmrcnpdlk%2Furl-search-parser?ref=badge_large)
