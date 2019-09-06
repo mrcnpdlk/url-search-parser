@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - FOSSA check
 - phpstan warnings fix
+- throw `DuplicateParamException` for duplicate sort param
+- test, PHPUnit 8.0
 ## [v2.0.0] - 2019-03-29
 ### Changed
 - namespace change `mrcnpdlk`->`Mrcnpdlk`
