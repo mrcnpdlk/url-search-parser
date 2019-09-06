@@ -6,6 +6,7 @@ use http\Exception\InvalidArgumentException;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 use PHPUnit\Framework\TestCase;
@@ -77,6 +78,37 @@ class RequestParserTest extends TestCase
 
         $oParser->getFilter()->replaceParam(new FilterParam('bar', 'eq', 'bar'));
         $this->assertCount(2, $oParser->getFilter());
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testSort_replaceParam(): void
+    {
+        $url     = 'https://api.expample.com?'
+            . 'sort=a,-b';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
+        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('a')[0]->direction);
+
+        $oParser->getSort()->replaceParam(new SortParam('a', Sort::DIRECTION_DESC));
+        $this->assertCount(2, $oParser->getSort());
+        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
+        $this->assertSame(Sort::DIRECTION_DESC, $oParser->getSort()->getByParamName('a')[0]->direction);
+
+        $oParser->getSort()->appendParam(new SortParam('c', Sort::DIRECTION_ASC));
+        $this->assertCount(3, $oParser->getSort());
+        $this->assertCount(1, $oParser->getSort()->getByParamName('c'));
+        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('c')[0]->direction);
+
+        $this->assertTrue($oParser->getSort()->isExists('a'));
+        $this->assertTrue($oParser->getSort()->isExists('b'));
+        $this->assertTrue($oParser->getSort()->isExists('c'));
+        $this->assertFalse($oParser->getSort()->isExists('d'));
     }
 
     /**

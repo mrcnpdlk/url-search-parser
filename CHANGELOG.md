@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0] - 2019-09-06
+### Added
+- FOSSA check
+- phpstan warnings fix
 ## [v2.0.0] - 2019-03-29
 ### Changed
 - namespace change `mrcnpdlk`->`Mrcnpdlk`
@@ -58,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2018-06-16
 
-[Unreleased]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.0.0...devel
+[Unreleased]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.1.0...devel
+[v2.1.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v1.5.0...v2.0.0
 [v1.5.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v1.3.0...v1.4.0
