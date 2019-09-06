@@ -33,6 +33,7 @@ class Sort implements IteratorAggregate
      * @param string|null $sortString
      *
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $sortString = null)
     {
