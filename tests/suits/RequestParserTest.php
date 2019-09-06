@@ -6,7 +6,9 @@ use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\RequestParser;
 use PHPUnit\Framework\TestCase;
 
@@ -79,10 +81,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamException(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?filter=3';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -90,10 +92,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyOperator(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?filter[foo][]=3';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -101,10 +103,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyParam(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?filter[][eq]=3';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -112,10 +114,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidLimit(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?limit=-1';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -123,10 +125,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOffset(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?offset=-1';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -134,10 +136,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOperator(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?filter[foo][qwer]=3';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -145,10 +147,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidPage(): void
     {
+        $this->expectException(InvalidParamException::class);
         $url   = 'https://api.expample.com?page=-1';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
@@ -156,10 +158,10 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      */
     public function testInvalidSortDuplicateException(): void
     {
+        $this->expectException(DuplicateParamException::class);
         $url   = 'https://api.expample.com?sort=a,-a';
         $query = parse_url($url, PHP_URL_QUERY);
         new RequestParser($query);
