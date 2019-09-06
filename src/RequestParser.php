@@ -66,9 +66,9 @@ class RequestParser
      *
      * @param string $query
      *
-     * @throws Exception
-     * @throws EmptyParamException
-     * @throws InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $query)
     {
@@ -131,11 +131,27 @@ class RequestParser
     }
 
     /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     *
      * @return string
      */
     public function getQueryHash(): string
     {
-        return md5(json_encode($this->queryParams));
+        try {
+            $resJson = json_encode($this->queryParams);
+            if (false === $resJson) {
+                throw new RuntimeException('Cannot generate json_encode');
+            }
+            /** @var string|false $res */
+            $res = md5($resJson);
+            if (false === $res) {
+                throw new RuntimeException('Cannot generate md5 hash');
+            }
+        } catch (RuntimeException $e) {
+            throw new Exception(sprintf('Cannot query hash. %s', $e->getMessage()));
+        }
+
+        return $res;
     }
 
     /**
@@ -285,6 +301,7 @@ class RequestParser
     /**
      * @param string $query
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */

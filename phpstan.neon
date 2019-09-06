@@ -1,10 +1,12 @@
 parameters:
-	level: 4
+	level: 6
 	paths:
 		- src
 		- tests
 	fileExtensions:
 		- php
+	excludes_analyse:
+		- %currentWorkingDirectory%/tests/suits/FilterTest.php
 
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon

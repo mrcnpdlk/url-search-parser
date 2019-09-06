@@ -82,6 +82,7 @@ class Filter implements IteratorAggregate
                 throw new InvalidParamException(sprintf('Key in FILTER param is not a string'));
             }
             if (is_array($filters)) {
+                /** @var string $operator */
                 foreach ($filters as $operator => $value) {
                     if (!array_key_exists($operator, self::$allowedOperators)) {
                         throw new InvalidParamException(sprintf('Operator [%s] in FILTER is not allowed', $operator));

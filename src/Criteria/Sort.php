@@ -9,6 +9,7 @@ namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 use ArrayIterator;
 use IteratorAggregate;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 
@@ -25,14 +26,16 @@ class Sort implements IteratorAggregate
     /**
      * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
      */
-    private $params = [];
+    private $sortParams = [];
 
     /**
      * Sort constructor.
      *
      * @param string|null $sortString
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $sortString = null)
     {
@@ -50,17 +53,51 @@ class Sort implements IteratorAggregate
                 if (empty($param)) {
                     throw new EmptyParamException(sprintf('Empty SORT param'));
                 }
-                $this->params[] = new SortParam($param, self::DIRECTION_DESC);
+                $this->appendParam(new SortParam($param, self::DIRECTION_DESC));
             } else {
-                $this->params[] = new SortParam($param, self::DIRECTION_ASC);
+                $this->appendParam(new SortParam($param, self::DIRECTION_ASC));
             }
         }
     }
 
     /**
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam $sortParam
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     *
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
+     */
+    public function appendParam(SortParam $sortParam): Sort
+    {
+        if ($this->isExists($sortParam->param)) {
+            throw new DuplicateParamException(sprintf('Duplicate Sort param `%s`', $sortParam->param));
+        }
+        $this->sortParams[] = $sortParam;
+
+        return $this;
+    }
+
+    /**
+     * @param string $paramName
+     *
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]
+     */
+    public function getByParamName(string $paramName): array
+    {
+        $params = [];
+        foreach ($this->sortParams as $param) {
+            if ($param->param === $paramName) {
+                $params[] = $param;
+            }
+        }
+
+        return $params;
+    }
+
+    /**
      * Retrieve an external iterator
      *
-     * @see  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @see   http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
      *                     <b>Traversable</b>
@@ -69,7 +106,47 @@ class Sort implements IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->params);
+        return new ArrayIterator($this->sortParams);
+    }
+
+    /**
+     * @param string $paramName
+     *
+     * @return bool
+     */
+    public function isExists(string $paramName): bool
+    {
+        foreach ($this->sortParams as $param) {
+            if ($param->param === $paramName) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam $sortParam
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     *
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
+     */
+    public function replaceParam(SortParam $sortParam): Sort
+    {
+        $isChanged = false;
+        foreach ($this->sortParams as &$param) {
+            if ($param->param === $sortParam->param) {
+                $param->direction = $sortParam->direction;
+                $isChanged        = true;
+            }
+        }
+        unset($param);
+        if (!$isChanged) {
+            $this->appendParam($sortParam);
+        }
+
+        return $this;
     }
 
     /**
@@ -77,6 +154,6 @@ class Sort implements IteratorAggregate
      */
     public function toArray(): array
     {
-        return $this->params;
+        return $this->sortParams;
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
 
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
+use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam;
 use PHPUnit\Framework\TestCase;
 
@@ -63,10 +64,13 @@ class CriteriaTest extends TestCase
         $this->assertEquals(true, $oFilterParam->isWhereNotNull());
     }
 
-    public function testSortParam()
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testSortParam(): void
     {
         $oSortParam = new SortParam('foo', 'asc');
         $this->assertEquals('foo', $oSortParam->param);
-        $this->assertEquals('asc', $oSortParam->direction);
+        $this->assertEquals(Sort::DIRECTION_ASC, $oSortParam->direction);
     }
 }
