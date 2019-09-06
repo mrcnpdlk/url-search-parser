@@ -9,6 +9,7 @@ namespace Mrcnpdlk\Lib\UrlSearchParser\Criteria;
 
 use ArrayIterator;
 use IteratorAggregate;
+use Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Traversable;
 
@@ -32,6 +33,7 @@ class Sort implements IteratorAggregate
      *
      * @param string|null $sortString
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
@@ -51,9 +53,9 @@ class Sort implements IteratorAggregate
                 if (empty($param)) {
                     throw new EmptyParamException(sprintf('Empty SORT param'));
                 }
-                $this->sortParams[] = new SortParam($param, self::DIRECTION_DESC);
+                $this->appendParam(new SortParam($param, self::DIRECTION_DESC));
             } else {
-                $this->sortParams[] = new SortParam($param, self::DIRECTION_ASC);
+                $this->appendParam(new SortParam($param, self::DIRECTION_ASC));
             }
         }
     }
@@ -61,10 +63,15 @@ class Sort implements IteratorAggregate
     /**
      * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam $sortParam
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     *
      * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */
     public function appendParam(SortParam $sortParam): Sort
     {
+        if ($this->isExists($sortParam->param)) {
+            throw new DuplicateParamException(sprintf('Duplicate Sort param `%s`', $sortParam->param));
+        }
         $this->sortParams[] = $sortParam;
 
         return $this;
@@ -120,6 +127,8 @@ class Sort implements IteratorAggregate
 
     /**
      * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam $sortParam
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      *
      * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
      */

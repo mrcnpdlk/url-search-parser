@@ -66,9 +66,9 @@ class RequestParser
      *
      * @param string $query
      *
-     * @throws Exception
-     * @throws EmptyParamException
-     * @throws InvalidParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function __construct(string $query)
     {
@@ -301,6 +301,7 @@ class RequestParser
     /**
      * @param string $query
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */

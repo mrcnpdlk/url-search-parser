@@ -2,7 +2,6 @@
 
 namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
 
-use http\Exception\InvalidArgumentException;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
@@ -63,8 +62,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testFilter_replaceParam(): void
     {
@@ -82,39 +79,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
-    public function testSort_replaceParam(): void
-    {
-        $url     = 'https://api.expample.com?'
-            . 'sort=a,-b';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
-
-        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
-        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('a')[0]->direction);
-
-        $oParser->getSort()->replaceParam(new SortParam('a', Sort::DIRECTION_DESC));
-        $this->assertCount(2, $oParser->getSort());
-        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
-        $this->assertSame(Sort::DIRECTION_DESC, $oParser->getSort()->getByParamName('a')[0]->direction);
-
-        $oParser->getSort()->appendParam(new SortParam('c', Sort::DIRECTION_ASC));
-        $this->assertCount(3, $oParser->getSort());
-        $this->assertCount(1, $oParser->getSort()->getByParamName('c'));
-        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('c')[0]->direction);
-
-        $this->assertTrue($oParser->getSort()->isExists('a'));
-        $this->assertTrue($oParser->getSort()->isExists('b'));
-        $this->assertTrue($oParser->getSort()->isExists('c'));
-        $this->assertFalse($oParser->getSort()->isExists('d'));
-    }
-
-    /**
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamException(): void
@@ -126,8 +90,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyOperator(): void
@@ -139,8 +101,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionEmptyParam(): void
@@ -152,8 +112,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidLimit(): void
@@ -165,8 +123,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOffset(): void
@@ -178,8 +134,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidOperator(): void
@@ -191,8 +145,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testInvalidParamExceptionInvalidPage(): void
@@ -204,8 +156,17 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     * @expectedException \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     */
+    public function testInvalidSortDuplicateException(): void
+    {
+        $url   = 'https://api.expample.com?sort=a,-a';
+        $query = parse_url($url, PHP_URL_QUERY);
+        new RequestParser($query);
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      */
     public function testParseAddons(): void
     {
@@ -219,8 +180,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsArrayAsArray(): void
     {
@@ -234,8 +193,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsArrayAsString(): void
     {
@@ -249,8 +206,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsAsBoolFalse(): void
     {
@@ -265,8 +220,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsAsBoolTrue(): void
     {
@@ -281,8 +234,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseAddonsInvalidType(): void
     {
@@ -296,7 +247,6 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
     public function testParseFilter(): void
@@ -334,10 +284,8 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testParseSort()
+    public function testParseSort(): void
     {
         $url      = 'https://api.expample.com?sort=id,-name';
         $query    = parse_url($url, PHP_URL_QUERY);
@@ -356,10 +304,8 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testRemoveQueryParam()
+    public function testRemoveQueryParam(): void
     {
         $url     = 'https://api.expample.com?foo=bar';
         $query   = parse_url($url, PHP_URL_QUERY);
@@ -368,5 +314,36 @@ class RequestParserTest extends TestCase
         $this->assertEquals('bar', $oParser->getQueryParam('foo'));
         $oParser->removeQueryParam('foo');
         $this->assertEquals(null, $oParser->getQueryParam('foo'));
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     */
+    public function testSort_replaceParam(): void
+    {
+        $url     = 'https://api.expample.com?'
+            . 'sort=a,-b';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
+        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('a')[0]->direction);
+
+        $oParser->getSort()->replaceParam(new SortParam('a', Sort::DIRECTION_DESC));
+        $this->assertCount(2, $oParser->getSort());
+        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
+        $this->assertSame(Sort::DIRECTION_DESC, $oParser->getSort()->getByParamName('a')[0]->direction);
+
+        $oParser->getSort()->appendParam(new SortParam('c', Sort::DIRECTION_ASC));
+        $this->assertCount(3, $oParser->getSort());
+        $this->assertCount(1, $oParser->getSort()->getByParamName('c'));
+        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('c')[0]->direction);
+
+        $this->assertTrue($oParser->getSort()->isExists('a'));
+        $this->assertTrue($oParser->getSort()->isExists('b'));
+        $this->assertTrue($oParser->getSort()->isExists('c'));
+        $this->assertFalse($oParser->getSort()->isExists('d'));
     }
 }
