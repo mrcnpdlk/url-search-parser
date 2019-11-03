@@ -322,6 +322,32 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testRemoveQueryParamInvalid(): void
+    {
+        $this->expectException(InvalidParamException::class);
+        $url     = 'https://api.expample.com?phrase=bar';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->removeQueryParam('phrase');
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testSetQueryParam(): void
+    {
+        $url     = 'https://api.expample.com?foo=bar';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->setQueryParam('foo', 'baz');
+        $this->assertEquals('baz', $oParser->getQueryParam('foo'));
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */

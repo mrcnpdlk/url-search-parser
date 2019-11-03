@@ -356,12 +356,13 @@ class RequestParser
 
     /**
      * @param string $param
+     * @param        $value
      *
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      *
      * @return $this
      */
-    public function setQueryParam(string $param): self
+    public function setQueryParam(string $param, $value): self
     {
         if (in_array($param, [
             self::FILTER_IDENTIFIER,
@@ -373,7 +374,7 @@ class RequestParser
         ], true)) {
             throw new InvalidParamException(sprintf('Cannot set %s param. Use `set<param name>` with empty arg', $param));
         }
-        $this->queryParams[$param] = $param;
+        $this->queryParams[$param] = $value;
 
         return $this;
     }
