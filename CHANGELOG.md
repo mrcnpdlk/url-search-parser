@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [v2.2.0] - 2019-11-03
+### Added:
+- method `getQuery` - issue [[Feature Request] support http_build_query](https://github.com/mrcnpdlk/url-search-parser/issues/8)
+- method `setQueryParam`
+### Fixed
+- removing specified query param will throw an InvalidParamException
 
 ## [v2.1.0] - 2019-09-06
 ### Added
@@ -64,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2018-06-16
 
-[Unreleased]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.1.0...devel
+[Unreleased]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.2.0...devel
+[v2.2.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v1.5.0...v2.0.0
 [v1.5.0]: https://github.com/mrcnpdlk/url-search-parser/compare/v1.4.0...v1.5.0

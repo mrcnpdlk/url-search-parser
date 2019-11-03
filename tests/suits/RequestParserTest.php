@@ -59,7 +59,9 @@ class RequestParserTest extends TestCase
 
         $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
         $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
-        $this->assertSame($query, $oParser->getQuery());
+        $tParams = [];
+        parse_str($query, $tParams);
+        $this->assertSame(http_build_query($tParams), $oParser->getQuery());
     }
 
     /**
@@ -316,6 +318,32 @@ class RequestParserTest extends TestCase
         $this->assertEquals('bar', $oParser->getQueryParam('foo'));
         $oParser->removeQueryParam('foo');
         $this->assertEquals(null, $oParser->getQueryParam('foo'));
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testRemoveQueryParamInvalid(): void
+    {
+        $this->expectException(InvalidParamException::class);
+        $url     = 'https://api.expample.com?phrase=bar';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->removeQueryParam('phrase');
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testSetQueryParam(): void
+    {
+        $url     = 'https://api.expample.com?foo=bar';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $oParser->setQueryParam('foo', 'baz');
+        $this->assertEquals('baz', $oParser->getQueryParam('foo'));
     }
 
     /**

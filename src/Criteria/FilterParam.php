@@ -47,12 +47,7 @@ class FilterParam
         $this->param    = $param;
         $this->operator = strtolower(trim($operator));
         if (!array_key_exists($this->operator, Filter::$allowedOperators)) {
-            throw new InvalidParamException(
-                sprintf('Invalid operator "%s". Only one of "%s" is allowed',
-                    $this->operator,
-                    implode(',', array_keys(Filter::$allowedOperators))
-                )
-            );
+            throw new InvalidParamException(sprintf('Invalid operator "%s". Only one of "%s" is allowed', $this->operator, implode(',', array_keys(Filter::$allowedOperators))));
         }
         $this->sqlOperator = Filter::$allowedOperators[$operator];
         $this->value       = $value;
