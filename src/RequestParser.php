@@ -21,7 +21,6 @@ class RequestParser
 {
     public const SORT_IDENTIFIER   = 'sort';
     public const FILTER_IDENTIFIER = 'filter';
-
     public const LIMIT_IDENTIFIER  = 'limit';
     public const OFFSET_IDENTIFIER = 'offset';
     public const PAGE_IDENTIFIER   = 'page';
@@ -334,11 +333,47 @@ class RequestParser
     /**
      * @param string $param
      *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
      * @return $this
      */
     public function removeQueryParam(string $param): self
     {
+        if (in_array($param, [
+            self::FILTER_IDENTIFIER,
+            self::SORT_IDENTIFIER,
+            self::PHRASE_IDENTIFIER,
+            self::OFFSET_IDENTIFIER,
+            self::LIMIT_IDENTIFIER,
+            self::PAGE_IDENTIFIER,
+        ], true)) {
+            throw new InvalidParamException(sprintf('Cannot remove %s param. Use `set<param name>` with empty arg', $param));
+        }
         unset($this->queryParams[$param]);
+
+        return $this;
+    }
+
+    /**
+     * @param string $param
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return $this
+     */
+    public function setQueryParam(string $param): self
+    {
+        if (in_array($param, [
+            self::FILTER_IDENTIFIER,
+            self::SORT_IDENTIFIER,
+            self::PHRASE_IDENTIFIER,
+            self::OFFSET_IDENTIFIER,
+            self::LIMIT_IDENTIFIER,
+            self::PAGE_IDENTIFIER,
+        ], true)) {
+            throw new InvalidParamException(sprintf('Cannot set %s param. Use `set<param name>` with empty arg', $param));
+        }
+        $this->queryParams[$param] = $param;
 
         return $this;
     }

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v2.2.0] - 2019-11-03
 ### Added:
 - method `getQuery` - issue [[Feature Request] support http_build_query](https://github.com/mrcnpdlk/url-search-parser/issues/8)
+- method `setQueryParam`
+### Fixed
+- removing specified query param will throw an InvalidParamException
 
 ## [v2.1.0] - 2019-09-06
 ### Added
