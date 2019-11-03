@@ -36,8 +36,7 @@ class SortParam
     {
         $direction = strtoupper($direction);
         if (!in_array($direction, [Sort::DIRECTION_ASC, Sort::DIRECTION_DESC], true)) {
-            throw new InvalidParamException(sprintf('Invalid direction type `%s`. Only %s is allowed', $direction,
-                implode(',', [Sort::DIRECTION_ASC, Sort::DIRECTION_DESC])));
+            throw new InvalidParamException(sprintf('Invalid direction type `%s`. Only %s is allowed', $direction, implode(',', [Sort::DIRECTION_ASC, Sort::DIRECTION_DESC])));
         }
         $this->param     = $param;
         $this->direction = $direction;

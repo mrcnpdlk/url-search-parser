@@ -14,7 +14,6 @@ use function is_array;
 use function is_string;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
-use Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException;
 use Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException;
 use RuntimeException;
 
@@ -27,19 +26,6 @@ class RequestParser
     public const OFFSET_IDENTIFIER = 'offset';
     public const PAGE_IDENTIFIER   = 'page';
     public const PHRASE_IDENTIFIER = 'phrase';
-
-    /**
-     * @var string
-     */
-    private $query;
-    /**
-     * @var array
-     */
-    private $queryParams = [];
-    /**
-     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
-     */
-    private $sort;
     /**
      * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
      */
@@ -51,15 +37,23 @@ class RequestParser
     /**
      * @var int|null
      */
-    private $page;
+    private $offset;
     /**
      * @var int|null
      */
-    private $offset;
+    private $page;
     /**
      * @var string|null
      */
     private $phrase;
+    /**
+     * @var array
+     */
+    private $queryParams = [];
+    /**
+     * @var \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort
+     */
+    private $sort;
 
     /**
      * RequestParser constructor.
@@ -72,8 +66,12 @@ class RequestParser
      */
     public function __construct(string $query)
     {
-        $this->query = $query;
         $this->parse($query);
+    }
+
+    public function __toString(): string
+    {
+        return $this->getQuery();
     }
 
     /**
@@ -82,6 +80,32 @@ class RequestParser
     public function getFilter(): Filter
     {
         return $this->filter;
+    }
+
+    /**
+     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter $filter
+     *
+     * @return $this
+     */
+    public function setFilter(Filter $filter): self
+    {
+        $this->filter = $filter;
+
+        $tRes = [];
+        foreach ($filter->toArray() as $item) {
+            if (!array_key_exists($item->param, $tRes)) {
+                $tRes[$item->param] = [];
+            }
+            $tRes[$item->param][$item->operator] = $item->value;
+        }
+
+        if (0 === count($tRes)) {
+            unset($this->queryParams[self::FILTER_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::FILTER_IDENTIFIER] = $tRes;
+        }
+
+        return $this;
     }
 
     /**
@@ -95,6 +119,28 @@ class RequestParser
     }
 
     /**
+     * @param int|null $limit
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return $this
+     */
+    public function setLimit(?int $limit): self
+    {
+        $this->limit = $limit;
+        if (null !== $this->limit && $this->limit < 0) {
+            throw new InvalidParamException('Limit value cannot be lower than 0');
+        }
+        if (null === $limit) {
+            unset($this->queryParams[self::LIMIT_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::LIMIT_IDENTIFIER] = $limit;
+        }
+
+        return $this;
+    }
+
+    /**
      * @param int|null $default
      *
      * @return int|null
@@ -102,6 +148,28 @@ class RequestParser
     public function getOffset(int $default = null): ?int
     {
         return $this->offset ?? $default;
+    }
+
+    /**
+     * @param int|null $offset
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return $this
+     */
+    public function setOffset(?int $offset): self
+    {
+        $this->offset = $offset;
+        if (null !== $this->offset && $this->offset < 0) {
+            throw new InvalidParamException('Offset value cannot be lower than 0');
+        }
+        if (null === $offset) {
+            unset($this->queryParams[self::OFFSET_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::OFFSET_IDENTIFIER] = $offset;
+        }
+
+        return $this;
     }
 
     /**
@@ -115,6 +183,28 @@ class RequestParser
     }
 
     /**
+     * @param int|null $page
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return $this
+     */
+    public function setPage(?int $page): self
+    {
+        $this->page = $page;
+        if (null !== $this->page && $this->page < 0) {
+            throw new InvalidParamException('Page value cannot be lower than 0');
+        }
+        if (null === $page) {
+            unset($this->queryParams[self::PAGE_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::PAGE_IDENTIFIER] = $page;
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getPhrase(): ?string
@@ -123,11 +213,31 @@ class RequestParser
     }
 
     /**
+     * @param string|null $phrase
+     *
+     * @return $this
+     */
+    public function setPhrase(?string $phrase): self
+    {
+        $this->phrase = $phrase;
+        if (null === $phrase) {
+            unset($this->queryParams[self::PHRASE_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::PHRASE_IDENTIFIER] = $phrase;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $arg_separator
+     * @param int         $enc_type
+     *
      * @return string
      */
-    public function getQuery(): string
+    public function getQuery(string $arg_separator = null, int $enc_type = \PHP_QUERY_RFC1738): string
     {
-        return $this->query;
+        return http_build_query($this->queryParams, null ?? '', $arg_separator ?? (ini_get('arg_separator.output') ?: '&'), $enc_type);
     }
 
     /**
@@ -200,93 +310,6 @@ class RequestParser
     }
 
     /**
-     * @param string $param
-     *
-     * @return $this
-     */
-    public function removeQueryParam(string $param): self
-    {
-        unset($this->queryParams[$param]);
-
-        return $this;
-    }
-
-    /**
-     * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter $filter
-     *
-     * @return $this
-     */
-    public function setFilter(Filter $filter): self
-    {
-        $this->filter = $filter;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $limit
-     *
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     *
-     * @return $this
-     */
-    public function setLimit(?int $limit): self
-    {
-        $this->limit = $limit;
-        if (null !== $this->limit && $this->limit < 0) {
-            throw new InvalidParamException('Limit value cannot be lower than 0');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $offset
-     *
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     *
-     * @return $this
-     */
-    public function setOffset(?int $offset): self
-    {
-        $this->offset = $offset;
-        if (null !== $this->offset && $this->offset < 0) {
-            throw new InvalidParamException('Offset value cannot be lower than 0');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $page
-     *
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     *
-     * @return $this
-     */
-    public function setPage(?int $page): self
-    {
-        $this->page = $page;
-        if (null !== $this->page && $this->page < 0) {
-            throw new InvalidParamException('Page value cannot be lower than 0');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string|null $phrase
-     *
-     * @return $this
-     */
-    public function setPhrase(?string $phrase): self
-    {
-        $this->phrase = $phrase;
-
-        return $this;
-    }
-
-    /**
      * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort $sort
      *
      * @return $this
@@ -294,6 +317,28 @@ class RequestParser
     public function setSort(Sort $sort): self
     {
         $this->sort = $sort;
+
+        $tRes = [];
+        foreach ($sort->toArray() as $param) {
+            $tRes[] = Sort::DIRECTION_DESC === $param->direction ? Sort::DESC_IDENTIFIER . $param->param : $param->param;
+        }
+        if (0 === count($tRes)) {
+            unset($this->queryParams[self::SORT_IDENTIFIER]);
+        } else {
+            $this->queryParams[self::SORT_IDENTIFIER] = implode(Sort::DELIMITER, $tRes);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $param
+     *
+     * @return $this
+     */
+    public function removeQueryParam(string $param): self
+    {
+        unset($this->queryParams[$param]);
 
         return $this;
     }

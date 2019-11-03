@@ -59,7 +59,9 @@ class RequestParserTest extends TestCase
 
         $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
         $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
-        $this->assertSame($query, $oParser->getQuery());
+        $tParams = [];
+        parse_str($query, $tParams);
+        $this->assertSame(http_build_query($tParams), $oParser->getQuery());
     }
 
     /**
