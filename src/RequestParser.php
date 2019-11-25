@@ -219,7 +219,7 @@ class RequestParser
     public function setPhrase(?string $phrase): self
     {
         $this->phrase = $phrase;
-        if (null === $phrase) {
+        if (null === $phrase || '' === $phrase) {
             unset($this->queryParams[self::PHRASE_IDENTIFIER]);
         } else {
             $this->queryParams[self::PHRASE_IDENTIFIER] = $phrase;
@@ -356,7 +356,7 @@ class RequestParser
 
     /**
      * @param string $param
-     * @param        $value
+     * @param mixed  $value
      *
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      *
