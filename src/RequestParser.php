@@ -218,10 +218,11 @@ class RequestParser
      */
     public function setPhrase(?string $phrase): self
     {
-        $this->phrase = $phrase;
         if (null === $phrase || '' === $phrase) {
             unset($this->queryParams[self::PHRASE_IDENTIFIER]);
+            $this->phrase = null;
         } else {
+            $this->phrase                               = $phrase;
             $this->queryParams[self::PHRASE_IDENTIFIER] = $phrase;
         }
 

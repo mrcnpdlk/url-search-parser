@@ -348,6 +348,18 @@ class RequestParserTest extends TestCase
 
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testPhraseNull(): void
+    {
+        $url     = 'https://api.expample.com?phrase=&foo=baz';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $this->assertEquals(null, $oParser->getPhrase());
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
