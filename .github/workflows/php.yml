@@ -20,7 +20,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run lint check
-      run: composer list
+      run: composer lint
 
     - name: Run phpstan
       run: composer phpstan
