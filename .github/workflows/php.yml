@@ -19,5 +19,11 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
+    - name: Run lint check
+      run: composer list
+
+    - name: Run phpstan
+      run: composer phpstan
+
     - name: Run test suite
       run: composer test
