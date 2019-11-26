@@ -88,7 +88,7 @@ class Filter implements IteratorAggregate
                         throw new InvalidParamException(sprintf('Operator [%s] in FILTER is not allowed', $operator));
                     }
                     if (in_array($operator, [self::PARAM_IN, self::PARAM_NOTIN], true)) {
-                        $value = explode(self::DELIMITER, $value);
+                        $value = '' === $value ? [] : explode(self::DELIMITER, $value);
                     }
                     if (in_array($operator, [self::PARAM_NULL, self::PARAM_NOTNULL], true)) {
                         $value = null;
