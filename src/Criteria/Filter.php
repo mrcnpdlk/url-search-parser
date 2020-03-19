@@ -37,6 +37,9 @@ class Filter implements IteratorAggregate
     public const PARAM_NOTNULL = 'notnull';
     public const PARAM_NOT     = 'not';
 
+    /**
+     * @var array<string,string|null>
+     */
     public static $allowedOperators = [
         self::PARAM_EQ      => '=',
         self::PARAM_GT      => '>',
@@ -71,7 +74,7 @@ class Filter implements IteratorAggregate
             throw new InvalidParamException(sprintf('FILTER params are invalid. Is [%s], Array expected', gettype($filterArray)));
         }
 
-        /** @var FilterParam|string|array $filters */
+        /** @var FilterParam|string|array<string,string> $filters */
         foreach ($filterArray as $param => $filters) {
             if ($filters instanceof FilterParam) {
                 $this->appendParam($filters);
@@ -104,7 +107,7 @@ class Filter implements IteratorAggregate
     /**
      * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
      *
-     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter<\Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam>
      */
     public function appendParam(FilterParam $filterParam): Filter
     {
@@ -118,7 +121,7 @@ class Filter implements IteratorAggregate
      *
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      *
-     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter<\Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam>
      */
     public function getByParam(string $paramName): Filter
     {
@@ -137,8 +140,8 @@ class Filter implements IteratorAggregate
      *
      * @see   http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     *                     <b>Traversable</b>
+     * @return Traversable<\Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam> An instance of an object implementing <b>Iterator</b> or
+     *                                                                         <b>Traversable</b>
      *
      * @since 5.0.0
      */

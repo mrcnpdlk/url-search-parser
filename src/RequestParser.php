@@ -46,7 +46,7 @@ class RequestParser
      */
     private $phrase;
     /**
-     * @var array
+     * @var array<string,mixed>
      */
     private $queryParams = [];
     /**
@@ -389,7 +389,7 @@ class RequestParser
      */
     private function parse(string $query): void
     {
-        parse_str($query, $this->queryParams);
+        parse_str(rawurldecode($query), $this->queryParams);
 
         $this->setSort(new Sort($this->getQueryParam(self::SORT_IDENTIFIER, 'string')));
         $this->setFilter(new Filter($this->getQueryParam(self::FILTER_IDENTIFIER, 'array', [])));

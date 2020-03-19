@@ -39,10 +39,7 @@ class Sort implements IteratorAggregate
      */
     public function __construct(string $sortString = null)
     {
-        /**
-         * @var string[]
-         * @var string   $param
-         */
+        /** @var string[] $tParams */
         $tParams = $sortString ? explode(self::DELIMITER, $sortString) : [];
         foreach ($tParams as $param) {
             if (empty($param)) {
@@ -99,8 +96,8 @@ class Sort implements IteratorAggregate
      *
      * @see   http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     *                     <b>Traversable</b>
+     * @return Traversable<\Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam> An instance of an object implementing <b>Iterator</b> or
+     *                                                                       <b>Traversable</b>
      *
      * @since 5.0.0
      */

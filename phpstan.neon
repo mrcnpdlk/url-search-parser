@@ -7,6 +7,7 @@ parameters:
 		- php
 	excludes_analyse:
 		- %currentWorkingDirectory%/tests/suits/FilterTest.php
+	checkGenericClassInNonGenericObjectType: false
 
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
