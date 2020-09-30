@@ -74,7 +74,7 @@ class CriteriaTest extends TestCase
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_REGEXP, null);
         $this->assertEquals('regexp', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isRegexp());
+        $this->assertEquals(true, $oFilterParam->isWhereRegexp());
     }
 
     public function testSortParam(): void
