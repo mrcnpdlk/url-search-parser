@@ -25,33 +25,39 @@ class Filter implements IteratorAggregate
 {
     public const DELIMITER = ',';
 
-    public const PARAM_EQ      = 'eq';
-    public const PARAM_GT      = 'gt';
-    public const PARAM_GTE     = 'gte';
-    public const PARAM_LT      = 'lt';
-    public const PARAM_LTE     = 'lte';
-    public const PARAM_LIKE    = 'like';
-    public const PARAM_IN      = 'in';
-    public const PARAM_NOTIN   = 'notin';
-    public const PARAM_NULL    = 'null';
-    public const PARAM_NOTNULL = 'notnull';
-    public const PARAM_NOT     = 'not';
+    public const PARAM_EQ         = 'eq';
+    public const PARAM_GT         = 'gt';
+    public const PARAM_GTE        = 'gte';
+    public const PARAM_LT         = 'lt';
+    public const PARAM_LTE        = 'lte';
+    public const PARAM_LIKE       = 'like';
+    public const PARAM_LIKE_RIGHT = 'rlike';
+    public const PARAM_LIKE_LEFT  = 'llike';
+    public const PARAM_IN         = 'in';
+    public const PARAM_NOTIN      = 'notin';
+    public const PARAM_NULL       = 'null';
+    public const PARAM_NOTNULL    = 'notnull';
+    public const PARAM_NOT        = 'not';
+    public const PARAM_REGEXP     = 'reg';
 
     /**
      * @var array<string,string|null>
      */
     public static $allowedOperators = [
-        self::PARAM_EQ      => '=',
-        self::PARAM_GT      => '>',
-        self::PARAM_GTE     => '>=',
-        self::PARAM_LT      => '<',
-        self::PARAM_LTE     => '<=',
-        self::PARAM_LIKE    => 'like',
-        self::PARAM_IN      => null,
-        self::PARAM_NOTIN   => null,
-        self::PARAM_NULL    => null,
-        self::PARAM_NOTNULL => null,
-        self::PARAM_NOT     => '!=',
+        self::PARAM_EQ         => '=',
+        self::PARAM_GT         => '>',
+        self::PARAM_GTE        => '>=',
+        self::PARAM_LT         => '<',
+        self::PARAM_LTE        => '<=',
+        self::PARAM_LIKE       => 'like',
+        self::PARAM_LIKE_RIGHT => 'like',
+        self::PARAM_LIKE_LEFT  => 'like',
+        self::PARAM_IN         => null,
+        self::PARAM_NOTIN      => null,
+        self::PARAM_NULL       => null,
+        self::PARAM_NOTNULL    => null,
+        self::PARAM_NOT        => '!=',
+        self::PARAM_REGEXP     => 'regexp',
     ];
 
     /**

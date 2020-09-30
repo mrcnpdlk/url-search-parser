@@ -56,6 +56,14 @@ class CriteriaTest extends TestCase
         $this->assertEquals('like', $oFilterParam->sqlOperator);
         $this->assertEquals(true, $oFilterParam->isWhereLike());
 
+        $oFilterParam = new FilterParam('foo', Filter::PARAM_LIKE_LEFT, 1);
+        $this->assertEquals('like', $oFilterParam->sqlOperator);
+        $this->assertEquals(true, $oFilterParam->isWhereLikeLeft());
+
+        $oFilterParam = new FilterParam('foo', Filter::PARAM_LIKE_RIGHT, 1);
+        $this->assertEquals('like', $oFilterParam->sqlOperator);
+        $this->assertEquals(true, $oFilterParam->isWhereLikeRight());
+
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NULL, null);
         $this->assertEquals(null, $oFilterParam->sqlOperator);
         $this->assertEquals(true, $oFilterParam->isWhereNull());
@@ -63,11 +71,12 @@ class CriteriaTest extends TestCase
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NOTNULL, null);
         $this->assertEquals(null, $oFilterParam->sqlOperator);
         $this->assertEquals(true, $oFilterParam->isWhereNotNull());
+
+        $oFilterParam = new FilterParam('foo', Filter::PARAM_REGEXP, null);
+        $this->assertEquals('regexp', $oFilterParam->sqlOperator);
+        $this->assertEquals(true, $oFilterParam->isRegexp());
     }
 
-    /**
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
     public function testSortParam(): void
     {
         $oSortParam = new SortParam('foo', 'asc');
@@ -75,9 +84,6 @@ class CriteriaTest extends TestCase
         $this->assertEquals(Sort::DIRECTION_ASC, $oSortParam->direction);
     }
 
-    /**
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
     public function testSortParamInvalidDirection(): void
     {
         $this->expectException(InvalidParamException::class);

@@ -86,6 +86,22 @@ class FilterParam
     /**
      * @return bool
      */
+    public function isWhereLikeLeft(): bool
+    {
+        return Filter::PARAM_LIKE_LEFT === $this->operator;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWhereLikeRight(): bool
+    {
+        return Filter::PARAM_LIKE_RIGHT === $this->operator;
+    }
+
+    /**
+     * @return bool
+     */
     public function isWhereNotIn(): bool
     {
         return Filter::PARAM_NOTIN === $this->operator;
@@ -113,5 +129,13 @@ class FilterParam
     public function isWhereNot(): bool
     {
         return Filter::PARAM_NOT === $this->operator;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRegexp(): bool
+    {
+        return Filter::PARAM_REGEXP === $this->operator;
     }
 }
