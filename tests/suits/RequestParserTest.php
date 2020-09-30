@@ -2,6 +2,7 @@
 
 namespace Tests\Mrcnpdlk\Lib\UrlSearchParser;
 
+use InvalidArgumentException;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam;
 use Mrcnpdlk\Lib\UrlSearchParser\Criteria\Sort;
@@ -58,10 +59,27 @@ class RequestParserTest extends TestCase
         $oParser = new RequestParser($query);
 
         $oParser->getFilter()->appendParam(new FilterParam('isFoo', 'eq', 0));
-        $this->assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
+        self::assertCount(2, $oParser->getFilter()->getByParam('isFoo'));
         $tParams = [];
         parse_str($query, $tParams);
-        $this->assertSame(http_build_query($tParams), $oParser->getQuery());
+        self::assertSame(http_build_query($tParams), $oParser->getQuery());
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testFilter_removeParam(): void
+    {
+        $url     = 'https://api.expample.com?'
+            . 'filter[isFoo][eq]=1'
+            . '&filter[isFoo][lt]=2'
+            . '&filter[isBar][eq]=3';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        $removedFilter = $oParser->getFilter()->removeByParam('isFoo');
+        self::assertCount(1, $oParser->getFilter());
+        self::assertCount(2, $removedFilter);
     }
 
     /**
@@ -70,15 +88,18 @@ class RequestParserTest extends TestCase
     public function testFilter_replaceParam(): void
     {
         $url     = 'https://api.expample.com?'
-            . 'filter[isFoo][eq]=1';
+            . 'filter[isFoo][eq]=1'
+            . '&filter[isFoo][lt]=1'
+            . '&filter[isBar][lt]=1'
+        ;
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
         $oParser->getFilter()->replaceParam(new FilterParam('isFoo', 'eq', 0));
-        $this->assertCount(1, $oParser->getFilter());
+        self::assertCount(3, $oParser->getFilter());
 
         $oParser->getFilter()->replaceParam(new FilterParam('bar', 'eq', 'bar'));
-        $this->assertCount(2, $oParser->getFilter());
+        self::assertCount(4, $oParser->getFilter());
     }
 
     /**
@@ -178,8 +199,8 @@ class RequestParserTest extends TestCase
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(5, $oParser->getQueryParam('baz', 'int'));
+        self::assertEquals('bar', $oParser->getQueryParam('foo', 'string'));
+        self::assertEquals(5, $oParser->getQueryParam('baz', 'int'));
     }
 
     /**
@@ -191,8 +212,8 @@ class RequestParserTest extends TestCase
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
+        self::assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
+        self::assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
     }
 
     /**
@@ -204,8 +225,8 @@ class RequestParserTest extends TestCase
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
-        $this->assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
+        self::assertEquals('1,2,3', $oParser->getQueryParam('foo', 'string'));
+        self::assertEquals(['1', '2', '3'], $oParser->getQueryParam('foo', 'array'));
     }
 
     /**
@@ -218,7 +239,7 @@ class RequestParserTest extends TestCase
             $query   = parse_url($url, PHP_URL_QUERY);
             $oParser = new RequestParser($query);
 
-            $this->assertEquals(false, $oParser->getQueryParam('foo', 'bool'));
+            self::assertEquals(false, $oParser->getQueryParam('foo', 'bool'));
         }
     }
 
@@ -232,7 +253,7 @@ class RequestParserTest extends TestCase
             $query   = parse_url($url, PHP_URL_QUERY);
             $oParser = new RequestParser($query);
 
-            $this->assertEquals(true, $oParser->getQueryParam('foo', 'bool'));
+            self::assertEquals(true, $oParser->getQueryParam('foo', 'bool'));
         }
     }
 
@@ -241,12 +262,12 @@ class RequestParserTest extends TestCase
      */
     public function testParseAddonsInvalidType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $url     = 'https://api.expample.com?foo=bar&baz=5';
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertEquals('bar', $oParser->getQueryParam('foo', 'stringa'));
+        self::assertEquals('bar', $oParser->getQueryParam('foo', 'stringa'));
     }
 
     /**
@@ -266,24 +287,24 @@ class RequestParserTest extends TestCase
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tFilters = $oParser->getFilter()->toArray();
-        $this->assertCount(7, $tFilters);
-        $this->assertEquals([21, 22, 23], $tFilters[2]->value);
-        $this->assertEquals('bar', $tFilters[3]->param);
-        $this->assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
-        $this->assertEquals('baz', $tFilters[3]->value);
-        $this->assertTrue($tFilters[4]->isWhereNotNull());
-        $this->assertFalse($tFilters[4]->isWhereNull());
-        $this->assertTrue($tFilters[5]->isWhereNull());
-        $this->assertFalse($tFilters[5]->isWhereNotNull());
-        $this->assertTrue($tFilters[6]->isWhereNot());
+        self::assertCount(7, $tFilters);
+        self::assertEquals([21, 22, 23], $tFilters[2]->value);
+        self::assertEquals('bar', $tFilters[3]->param);
+        self::assertEquals(Filter::PARAM_EQ, $tFilters[3]->operator);
+        self::assertEquals('baz', $tFilters[3]->value);
+        self::assertTrue($tFilters[4]->isWhereNotNull());
+        self::assertFalse($tFilters[4]->isWhereNull());
+        self::assertTrue($tFilters[5]->isWhereNull());
+        self::assertFalse($tFilters[5]->isWhereNotNull());
+        self::assertTrue($tFilters[6]->isWhereNot());
 
-        $this->assertEquals([], $oParser->getSort()->toArray());
-        $this->assertNull($oParser->getLimit());
-        $this->assertNull($oParser->getPage());
-        $this->assertNull($oParser->getPhrase());
-        $this->assertNull($oParser->getOffset());
+        self::assertEquals([], $oParser->getSort()->toArray());
+        self::assertNull($oParser->getLimit());
+        self::assertNull($oParser->getPage());
+        self::assertNull($oParser->getPhrase());
+        self::assertNull($oParser->getOffset());
 
-        $this->assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
+        self::assertCount(1, $oParser->getFilter()->getByParam('isFoo'));
     }
 
     /**
@@ -295,15 +316,27 @@ class RequestParserTest extends TestCase
         $query    = parse_url($url, PHP_URL_QUERY);
         $oParser  = new RequestParser($query);
         $tSorters = $oParser->getSort()->toArray();
-        $this->assertEquals('id', $tSorters[0]->param);
-        $this->assertEquals(Sort::DIRECTION_ASC, $tSorters[0]->direction);
-        $this->assertEquals('name', $tSorters[1]->param);
-        $this->assertEquals(Sort::DIRECTION_DESC, $tSorters[1]->direction);
-        $this->assertEquals([], $oParser->getFilter()->toArray());
-        $this->assertNull($oParser->getLimit());
-        $this->assertNull($oParser->getPage());
-        $this->assertNull($oParser->getPhrase());
-        $this->assertNull($oParser->getOffset());
+        self::assertEquals('id', $tSorters[0]->param);
+        self::assertEquals(Sort::DIRECTION_ASC, $tSorters[0]->direction);
+        self::assertEquals('name', $tSorters[1]->param);
+        self::assertEquals(Sort::DIRECTION_DESC, $tSorters[1]->direction);
+        self::assertEquals([], $oParser->getFilter()->toArray());
+        self::assertNull($oParser->getLimit());
+        self::assertNull($oParser->getPage());
+        self::assertNull($oParser->getPhrase());
+        self::assertNull($oParser->getOffset());
+    }
+
+    /**
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
+     */
+    public function testPhraseNull(): void
+    {
+        $url     = 'https://api.expample.com?phrase=&foo=baz';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $oParser = new RequestParser($query);
+
+        self::assertEquals(null, $oParser->getPhrase());
     }
 
     /**
@@ -315,9 +348,9 @@ class RequestParserTest extends TestCase
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertEquals('bar', $oParser->getQueryParam('foo'));
+        self::assertEquals('bar', $oParser->getQueryParam('foo'));
         $oParser->removeQueryParam('foo');
-        $this->assertEquals(null, $oParser->getQueryParam('foo'));
+        self::assertEquals(null, $oParser->getQueryParam('foo'));
     }
 
     /**
@@ -343,19 +376,7 @@ class RequestParserTest extends TestCase
         $oParser = new RequestParser($query);
 
         $oParser->setQueryParam('foo', 'baz');
-        $this->assertEquals('baz', $oParser->getQueryParam('foo'));
-    }
-
-    /**
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
-     */
-    public function testPhraseNull(): void
-    {
-        $url     = 'https://api.expample.com?phrase=&foo=baz';
-        $query   = parse_url($url, PHP_URL_QUERY);
-        $oParser = new RequestParser($query);
-
-        $this->assertEquals(null, $oParser->getPhrase());
+        self::assertEquals('baz', $oParser->getQueryParam('foo'));
     }
 
     /**
@@ -370,22 +391,22 @@ class RequestParserTest extends TestCase
         $query   = parse_url($url, PHP_URL_QUERY);
         $oParser = new RequestParser($query);
 
-        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
-        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('a')[0]->direction);
+        self::assertCount(1, $oParser->getSort()->getByParamName('a'));
+        self::assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('a')[0]->direction);
 
         $oParser->getSort()->replaceParam(new SortParam('a', Sort::DIRECTION_DESC));
-        $this->assertCount(2, $oParser->getSort());
-        $this->assertCount(1, $oParser->getSort()->getByParamName('a'));
-        $this->assertSame(Sort::DIRECTION_DESC, $oParser->getSort()->getByParamName('a')[0]->direction);
+        self::assertCount(2, $oParser->getSort());
+        self::assertCount(1, $oParser->getSort()->getByParamName('a'));
+        self::assertSame(Sort::DIRECTION_DESC, $oParser->getSort()->getByParamName('a')[0]->direction);
 
         $oParser->getSort()->appendParam(new SortParam('c', Sort::DIRECTION_ASC));
-        $this->assertCount(3, $oParser->getSort());
-        $this->assertCount(1, $oParser->getSort()->getByParamName('c'));
-        $this->assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('c')[0]->direction);
+        self::assertCount(3, $oParser->getSort());
+        self::assertCount(1, $oParser->getSort()->getByParamName('c'));
+        self::assertSame(Sort::DIRECTION_ASC, $oParser->getSort()->getByParamName('c')[0]->direction);
 
-        $this->assertTrue($oParser->getSort()->isExists('a'));
-        $this->assertTrue($oParser->getSort()->isExists('b'));
-        $this->assertTrue($oParser->getSort()->isExists('c'));
-        $this->assertFalse($oParser->getSort()->isExists('d'));
+        self::assertTrue($oParser->getSort()->isExists('a'));
+        self::assertTrue($oParser->getSort()->isExists('b'));
+        self::assertTrue($oParser->getSort()->isExists('c'));
+        self::assertFalse($oParser->getSort()->isExists('d'));
     }
 }

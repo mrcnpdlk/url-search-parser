@@ -13,9 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FilterTest extends TestCase
 {
-    /**
-     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
-     */
     public function testInvalidFilterConstructor(): void
     {
         $this->expectException(InvalidParamException::class);

@@ -22,66 +22,66 @@ class CriteriaTest extends TestCase
     public function testFilterParam(): void
     {
         $oFilterParam = new FilterParam('foo', Filter::PARAM_EQ, 1);
-        $this->assertEquals('foo', $oFilterParam->param);
-        $this->assertEquals(Filter::PARAM_EQ, $oFilterParam->operator);
-        $this->assertEquals('=', $oFilterParam->sqlOperator);
-        $this->assertEquals(1, $oFilterParam->value);
-        $this->assertEquals(true, $oFilterParam->isWhere());
+        self::assertEquals('foo', $oFilterParam->param);
+        self::assertEquals(Filter::PARAM_EQ, $oFilterParam->operator);
+        self::assertEquals('=', $oFilterParam->sqlOperator);
+        self::assertEquals(1, $oFilterParam->value);
+        self::assertEquals(true, $oFilterParam->isWhere());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_LT, 1);
-        $this->assertEquals('<', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhere());
+        self::assertEquals('<', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhere());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_LTE, 1);
-        $this->assertEquals('<=', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhere());
+        self::assertEquals('<=', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhere());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_GT, 1);
-        $this->assertEquals('>', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhere());
+        self::assertEquals('>', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhere());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_GTE, 1);
-        $this->assertEquals('>=', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhere());
+        self::assertEquals('>=', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhere());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_IN, 1);
-        $this->assertEquals(null, $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereIn());
+        self::assertEquals(null, $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereIn());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NOTIN, 1);
-        $this->assertEquals(null, $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereNotIn());
+        self::assertEquals(null, $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereNotIn());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_LIKE, 1);
-        $this->assertEquals('like', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereLike());
+        self::assertEquals('like', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereLike());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_LIKE_LEFT, 1);
-        $this->assertEquals('like', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereLikeLeft());
+        self::assertEquals('like', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereLikeLeft());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_LIKE_RIGHT, 1);
-        $this->assertEquals('like', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereLikeRight());
+        self::assertEquals('like', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereLikeRight());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NULL, null);
-        $this->assertEquals(null, $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereNull());
+        self::assertEquals(null, $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereNull());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_NOTNULL, null);
-        $this->assertEquals(null, $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereNotNull());
+        self::assertEquals(null, $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereNotNull());
 
         $oFilterParam = new FilterParam('foo', Filter::PARAM_REGEXP, null);
-        $this->assertEquals('regexp', $oFilterParam->sqlOperator);
-        $this->assertEquals(true, $oFilterParam->isWhereRegexp());
+        self::assertEquals('regexp', $oFilterParam->sqlOperator);
+        self::assertEquals(true, $oFilterParam->isWhereRegexp());
     }
 
     public function testSortParam(): void
     {
         $oSortParam = new SortParam('foo', 'asc');
-        $this->assertEquals('foo', $oSortParam->param);
-        $this->assertEquals(Sort::DIRECTION_ASC, $oSortParam->direction);
+        self::assertEquals('foo', $oSortParam->param);
+        self::assertEquals(Sort::DIRECTION_ASC, $oSortParam->direction);
     }
 
     public function testSortParamInvalidDirection(): void
