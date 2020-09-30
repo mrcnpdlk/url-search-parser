@@ -157,6 +157,29 @@ class Filter implements IteratorAggregate
     }
 
     /**
+     * @param string $paramName
+     *
+     * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
+     *
+     * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter Return removed part of filters
+     */
+    public function removeByParam(string $paramName): Filter
+    {
+        $i   = 0;
+        $res = [];
+        foreach ($this->filters as $item) {
+            if ($item->param === $paramName) {
+                $res[] = $item;
+                unset($this->filters[$i]);
+            }
+            ++$i;
+        }
+        $this->filters = array_values($this->filters);
+
+        return new self($res);
+    }
+
+    /**
      * @param \Mrcnpdlk\Lib\UrlSearchParser\Criteria\FilterParam $filterParam
      *
      * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\Filter
