@@ -69,7 +69,7 @@ Filtering is more complex then sorting. Array notation is used. Let's look at so
 - `GET /messages?filter[type][in]=urgent,warning,error` - Retrieves a list of messages where type is urgent, warning or error;
 - `GET /messages?filter[type][null]` - Retrieves a list of messages where type is NULL;
 
-Allowed operators: `eq`,`lt`,`lte`,`gt`,`gte`,`like`,`in`,`notin`,`null`,`notnull`
+Allowed operators: `eq`,`lt`,`lte`,`gt`,`gte`,`like`,`llike`,`rlike`,`in`,`notin`,`null`,`notnull`,`regexp`
 
 In case using not allowed operator `mrcnpdlk\Lib\UrlQueryParser\Exception\InvalidParamException` is thrown.
 

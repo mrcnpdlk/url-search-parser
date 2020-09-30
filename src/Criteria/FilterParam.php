@@ -134,7 +134,7 @@ class FilterParam
     /**
      * @return bool
      */
-    public function isRegexp(): bool
+    public function isWhereRegexp(): bool
     {
         return Filter::PARAM_REGEXP === $this->operator;
     }
