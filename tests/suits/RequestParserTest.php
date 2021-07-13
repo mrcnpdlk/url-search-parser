@@ -51,7 +51,7 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testFilter_appendParam(): void
+    public function testFilterAppendParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1';
@@ -68,7 +68,7 @@ class RequestParserTest extends TestCase
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      */
-    public function testFilter_removeParam(): void
+    public function testFilterRemoveParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1'
@@ -85,7 +85,7 @@ class RequestParserTest extends TestCase
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      */
-    public function testFilter_replaceParam(): void
+    public function testFilterReplaceParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1'
@@ -384,7 +384,7 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testSort_replaceParam(): void
+    public function testSortReplaceParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'sort=a,-b';
