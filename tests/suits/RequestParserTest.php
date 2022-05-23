@@ -33,6 +33,19 @@ class RequestParserTest extends TestCase
         new RequestParser($query);
     }
 
+    public function testRemoveSortParam(): void
+    {
+        $url     = 'https://api.expample.com?sort=foo';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $request = new RequestParser($query);
+        $res     = $request->getSort()->getByParamName('foo');
+        $this->assertCount(1, $res);
+
+        $request->getSort()->removeByParamName('foo');
+        $res = $request->getSort()->getByParamName('foo');
+        $this->assertCount(0, $res);
+    }
+
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
@@ -51,7 +64,7 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testFilter_appendParam(): void
+    public function testFilterAppendParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1';
@@ -68,7 +81,7 @@ class RequestParserTest extends TestCase
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      */
-    public function testFilter_removeParam(): void
+    public function testFilterRemoveParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1'
@@ -85,7 +98,7 @@ class RequestParserTest extends TestCase
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      */
-    public function testFilter_replaceParam(): void
+    public function testFilterReplaceParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'filter[isFoo][eq]=1'
@@ -384,7 +397,7 @@ class RequestParserTest extends TestCase
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\DuplicateParamException
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\InvalidParamException
      */
-    public function testSort_replaceParam(): void
+    public function testSortReplaceParam(): void
     {
         $url     = 'https://api.expample.com?'
             . 'sort=a,-b';

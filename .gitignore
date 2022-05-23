@@ -4,6 +4,7 @@ composer.phar
 /_playgroud/
 /clover.xml
 .php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
 devel
 
