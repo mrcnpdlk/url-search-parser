@@ -75,6 +75,24 @@ class Sort implements IteratorAggregate
     }
 
     /**
+     * Removing parametr by name
+     *
+     * @param string $paramName
+     *
+     * @return $this
+     */
+    public function removeByParamName(string $paramName): Sort
+    {
+        foreach ($this->sortParams as $key => $param) {
+            if ($param->param === $paramName) {
+                unset($this->sortParams[$key]);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @param string $paramName
      *
      * @return \Mrcnpdlk\Lib\UrlSearchParser\Criteria\SortParam[]

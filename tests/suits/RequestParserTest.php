@@ -33,6 +33,19 @@ class RequestParserTest extends TestCase
         new RequestParser($query);
     }
 
+    public function testRemoveSortParam(): void
+    {
+        $url     = 'https://api.expample.com?sort=foo';
+        $query   = parse_url($url, PHP_URL_QUERY);
+        $request = new RequestParser($query);
+        $res     = $request->getSort()->getByParamName('foo');
+        $this->assertCount(1, $res);
+
+        $request->getSort()->removeByParamName('foo');
+        $res = $request->getSort()->getByParamName('foo');
+        $this->assertCount(0, $res);
+    }
+
     /**
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception
      * @throws \Mrcnpdlk\Lib\UrlSearchParser\Exception\EmptyParamException

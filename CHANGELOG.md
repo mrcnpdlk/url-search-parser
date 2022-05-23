@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.7.0] - 2022-05-23
+### Added:
+- `removeByParamName` method in Sort object
+### Changed:
+- PhpCsFixer update
 ## [v2.6.0] - 2020-09-30
 ### Added:
 - `removeByParam` method
